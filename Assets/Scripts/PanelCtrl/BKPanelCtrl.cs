@@ -48,7 +48,7 @@ public class BKPanelCtrl : BasePanel
         startAdvPoint = GetControl<Image>("StartAdvPoint");
         freeBatPoint = GetControl<Image>("FreeBatPoint");
         batPoint= GetControl<Image>("BatPoint");
-        endRound_btn = GetControl<Button>("EndRound");
+        endRound_btn = GetControl<Button>("EndRound_btn");
         left_btn = GetControl<Button>("Left_btn");
         right_btn = GetControl<Button>("Right_btn");
         left_text = "使用技能";
@@ -93,7 +93,7 @@ public class BKPanelCtrl : BasePanel
     {
         switch (btnName)
         {
-            case "EndRound":
+            case "EndRound_btn":
                 //结算回合 计算血量 是否销毁卡牌 是否获得战斗卡
                 EventCenter.GetInstance().EventTrigger("EndRoundOfHp");
                 endRound_btn.gameObject.SetActive(false);

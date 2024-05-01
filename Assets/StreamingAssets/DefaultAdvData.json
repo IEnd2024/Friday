@@ -1,0 +1,7 @@
+[
+{"defaultId":1,"advName":"深入岛屿","batName":"食物","skillName":"+1生命值","combatValue":2,"freeCardValue":3,"hp":1,"advValue1":2,"advValue2":5,"advValue3":8},
+{"defaultId":2,"advName":"探索岛屿","batName":"模仿","skillName":"1*复制","combatValue":1,"freeCardValue":2,"hp":1,"advValue1":1,"advValue2":3,"advValue3":6},
+{"defaultId":3,"advName":"食人族","batName":"武器","skillName":"","combatValue":4,"freeCardValue":5,"hp":1,"advValue1":5,"advValue2":9,"advValue3":14},
+{"defaultId":4,"advName":"野兽","batName":"领悟","skillName":"1*摧毁","combatValue":3,"freeCardValue":4,"hp":1,"advValue1":4,"advValue2":7,"advValue3":11},
+{"defaultId":5,"advName":"乘木筏登破船","batName":"策略","skillName":"2*交换","combatValue":0,"freeCardValue":1,"hp":1,"advValue1":0,"advValue2":1,"advValue3":3}
+]

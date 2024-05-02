@@ -164,6 +164,11 @@ public class BatCardView :BasePanel
                     EventCenter.GetInstance().EventTrigger("Cardskilling", this);
                     break;
                 case "½×¶Î-1":
+                    if (GameCtrl.TotalState != Game_State.State_Green && GameCtrl.TotalState != Game_State.State_Pirate)
+                    {
+                        EventCenter.GetInstance().EventTrigger("TotalStageChange", --GameCtrl.TotalState);
+                        ++GameCtrl.TotalState;
+                    } 
                     break;
                 case "¿´3ÕÅÅÆ":
                     break;

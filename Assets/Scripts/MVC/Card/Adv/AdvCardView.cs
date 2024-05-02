@@ -62,9 +62,9 @@ public class AdvCardView : BasePanel
         EventCenter.GetInstance().EventTrigger(myId + "advActiveUpdata", o);
     }
     //改变stage图标的位置
-    private void CheckStage()
+    private void CheckStage(Game_State _State)
     {
-        switch (GameCtrl.TotalState)
+        switch (_State)
         {
             case Game_State.State_Green:
                 stage.transform.localPosition = advValue1.transform.localPosition;
@@ -80,22 +80,15 @@ public class AdvCardView : BasePanel
     /// <summary>
     /// 面板数据变化事件
     /// </summary>
-    private void TotalStageChange()
+    private void TotalStageChange(Game_State _State)
     {
-        CheckStage();
-        switch (GameCtrl.TotalState)
+        CheckStage(_State);
+        switch (_State)
         {
             case Game_State.State_Green:
-                //抽卡后变化冒险所需战斗值
-                EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
-                {
-                    EventCenter.GetInstance().EventTrigger(myId + "advValue1", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
-                {
-                    EventCenter.GetInstance().EventTrigger(myId + "advValue1", -int.Parse(obj.combatValue.text));
-                });
+
                 //结算冒险回合结束
+                EventCenter.GetInstance().ClearSingleEvent<UnityAction<int>>(myId + "EndRoundOfDeHp");
                 EventCenter.GetInstance().addEventListener<UnityAction<int>>(myId + "EndRoundOfDeHp", (action) => {
                     if (isEnable)
                         action(int.Parse(advValue1.text));
@@ -103,16 +96,6 @@ public class AdvCardView : BasePanel
                 break;
             case Game_State.State_Yellow:
                 EventCenter.GetInstance().ClearSingleEvent<UnityAction<int>>(myId + "EndRoundOfDeHp");
-                EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue2", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue2", -int.Parse(obj.combatValue.text));
-                });
                 EventCenter.GetInstance().addEventListener<UnityAction<int>>(myId + "EndRoundOfDeHp", (action) => {
                     if (isEnable)
                         action(int.Parse(advValue2.text));
@@ -120,16 +103,6 @@ public class AdvCardView : BasePanel
                 break;
             case Game_State.State_Red:
                 EventCenter.GetInstance().ClearSingleEvent<UnityAction<int>>(myId + "EndRoundOfDeHp");
-                EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue3", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue3", -int.Parse(obj.combatValue.text));
-                });
                 EventCenter.GetInstance().addEventListener<UnityAction<int>>(myId + "EndRoundOfDeHp", (action) => {
                     if (isEnable)
                         action(int.Parse(advValue3.text));
@@ -152,7 +125,7 @@ public class AdvCardView : BasePanel
         EventCenter.GetInstance().addEventListener<CardData>(myId + "advInfoUpdata", UpdateInfo);
         ActiveUpdata(isEnable);
         //面板数据变化事件
-        EventCenter.GetInstance().addEventListener("TotalStageChange", TotalStageChange);
+        EventCenter.GetInstance().addEventListener<Game_State>("TotalStageChange", TotalStageChange);
         //抽免费战斗牌时变化免费抽卡数
         EventCenter.GetInstance().addEventListener(myId + "FreeBatCardCount", () =>
         {
@@ -179,6 +152,35 @@ public class AdvCardView : BasePanel
             EventCenter.GetInstance().EventTrigger("ChangeAdvToBat", this);
             
         });
+        //抽卡后变化冒险所需战斗值
+        EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
+        {
+            EventCenter.GetInstance().EventTrigger(myId + "advValue1", -int.Parse(obj.combatValue.text));
+        });
+        EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
+        {
+            EventCenter.GetInstance().EventTrigger(myId + "advValue1", -int.Parse(obj.combatValue.text));
+        });
+        EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
+        {
+            if (isEnable)
+                EventCenter.GetInstance().EventTrigger(myId + "advValue2", -int.Parse(obj.combatValue.text));
+        });
+        EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
+        {
+            if (isEnable)
+                EventCenter.GetInstance().EventTrigger(myId + "advValue2", -int.Parse(obj.combatValue.text));
+        });
+        EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
+        {
+            if (isEnable)
+                EventCenter.GetInstance().EventTrigger(myId + "advValue3", -int.Parse(obj.combatValue.text));
+        });
+        EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
+        {
+            if (isEnable)
+                EventCenter.GetInstance().EventTrigger(myId + "advValue3", -int.Parse(obj.combatValue.text));
+        });
         //添加UI事件
         BaseCard.GetInstance().EnterAndExitCard(myself);
         UIManager.AddCustomEventListener(myself, EventTriggerType.PointerClick, (obj) =>
@@ -202,6 +204,6 @@ public class AdvCardView : BasePanel
         EventCenter.GetInstance().ClearSingleEvent<BatCardView>(myId + "GetFreeBatCard");
         EventCenter.GetInstance().ClearSingleEvent<BatCardView>(myId + "GetBatCard");
         EventCenter.GetInstance().ClearSingleEvent<UnityAction<int>>(myId + "EndRoundOfDeHp");
-        EventCenter.GetInstance().RemoveEventListener("TotalStageChange", TotalStageChange);
+        EventCenter.GetInstance().RemoveEventListener<Game_State>("TotalStageChange", TotalStageChange);
     }
 }

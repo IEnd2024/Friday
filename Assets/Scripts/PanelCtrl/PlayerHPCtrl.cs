@@ -35,6 +35,7 @@ public class PlayerHPCtrl : BasePanel
         EventCenter.GetInstance().addEventListener("EndRoundOfHp", () =>
         {
             EventCenter.GetInstance().EventTrigger("DestroyBlankCard");
+            EventCenter.GetInstance().EventTrigger("TotalStageChange", GameCtrl.TotalState);
             EventCenter.GetInstance().EventTrigger<UnityAction<int>>(GameCtrl.nowAdvCard.MyId + "EndRoundOfDeHp", (value) =>
             {
                 if (value > 0)

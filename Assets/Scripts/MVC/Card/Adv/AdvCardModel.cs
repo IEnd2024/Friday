@@ -39,35 +39,35 @@ public class AdvCardModel : MonoBehaviour
     private void EventListener()
     {
         //通过监听触发冒险卡初始化事件
-        EventCenter.GetInstance().addEventListener<UnityAction<CardData>>( myId + "advInfoInit", (action) =>
+        EventCenter.GetInstance().addEventListener<UnityAction<CardData>>(myId + "advInfoInit", (action) =>
         {
             action(NewData);
-            temporaryData = NewData;
+            temporaryData = new CardData(NewData);
         });
         //添加数据监听和触发事件
-        EventCenter.GetInstance().addEventListener<bool>( myId + "advActiveUpdata", (o) =>
+        EventCenter.GetInstance().addEventListener<bool>(myId + "advActiveUpdata", (o) =>
         {
             isEnable = o;
-            EventCenter.GetInstance().EventTrigger(myId+ "advActiveUpdataOfPanel",isEnable);
+            EventCenter.GetInstance().EventTrigger(myId + "advActiveUpdataOfPanel", isEnable);
         });
-        EventCenter.GetInstance().addEventListener<int>( myId + "advValue1", (value) =>
+        EventCenter.GetInstance().addEventListener<int>(myId + "advValue1", (value) =>
         {
-            temporaryData.advValue1 = NewData.advValue1 + value;
+            temporaryData.advValue1 += value;
             EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", temporaryData);
         });
         EventCenter.GetInstance().addEventListener<int>(myId + "advValue2", (value) =>
         {
-            temporaryData.advValue2 = NewData.advValue2 + value;
+            temporaryData.advValue2 += value;
             EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", temporaryData);
         });
         EventCenter.GetInstance().addEventListener<int>(myId + "advValue3", (value) =>
-        {   
-            temporaryData.advValue3 = NewData.advValue3 + value;
+        {
+            temporaryData.advValue3 += value;
             EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", temporaryData);
         });
         EventCenter.GetInstance().addEventListener<int>(myId + "freeCardValue", (value) =>
         {
-            temporaryData.freeCardValue = NewData.freeCardValue + value;
+            temporaryData.freeCardValue += value;
             if (temporaryData.freeCardValue < 0)
                 temporaryData.freeCardValue = 0;
             EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", temporaryData);

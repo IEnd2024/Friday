@@ -29,7 +29,6 @@ public class SkillPanelCtrl : BasePanel
         {
             GameObject.Destroy(this.gameObject);
         });
-
         EventCenter.GetInstance().addEventListener<BatCardView>("DragTarget", (obj) =>
         {
             if (listCtrl != null)

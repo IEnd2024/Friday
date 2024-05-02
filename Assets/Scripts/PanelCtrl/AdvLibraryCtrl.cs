@@ -48,7 +48,7 @@ public class AdvLibraryCtrl : BasePanel
     private void EventListener()
     {
         //初始化冒险卡阶段变化
-        EventCenter.GetInstance().EventTrigger("TotalStageChange");
+        EventCenter.GetInstance().EventTrigger("TotalStageChange",GameCtrl.TotalState);
         //从抽牌堆移除两张牌，一张为进行冒险的，一张放入弃牌堆
         EventCenter.GetInstance().addEventListener<AdvCardView>("StartAdv", (obj) =>
         {
@@ -74,7 +74,7 @@ public class AdvLibraryCtrl : BasePanel
                 if (GameCtrl.TotalState >= Game_State.State_Green)
                 {
                     GameCtrl.TotalState++;
-                    EventCenter.GetInstance().EventTrigger("TotalStageChange");
+                    EventCenter.GetInstance().EventTrigger("TotalStageChange", GameCtrl.TotalState);
                     switch (GameCtrl.TotalState)
                     {
                         case Game_State.State_Yellow:

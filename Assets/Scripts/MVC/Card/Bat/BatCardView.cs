@@ -88,12 +88,16 @@ public class BatCardView :BasePanel
                     EventCenter.GetInstance().EventTrigger("DestoryHP", hpValue - int.Parse(hp.text));
                 }
             }
-            if(SkillMgr.GetInstance().isSkill)
+            if (SkillMgr.GetInstance().isSkill)
                 EventCenter.GetInstance().EventTrigger("DragTarget", this);
             RestorePostion();
-            
-            
 
+
+        });
+        //结束技能
+        EventCenter.GetInstance().addEventListener("EndSkill", () =>
+        {
+            bk.GetComponent<Outline>().effectColor = Color.black;
         });
         //回合结束冒险失败
         EventCenter.GetInstance().addEventListener("EndFailRound", () =>
@@ -138,11 +142,14 @@ public class BatCardView :BasePanel
                     EventCenter.GetInstance().EventTrigger("HP", 1);
                     break;
                 case "+2张牌":
+                    bk.GetComponent<Outline>().effectColor = Color.red;
                     EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetBatCard);
                     EventCenter.GetInstance().EventTrigger("HP", 1);
                     SkillMgr.GetInstance().Init(skillName.text);
                     break;
                 case "1*摧毁":
+                    bk.GetComponent<Outline>().effectColor = Color.red;
+                    SkillMgr.GetInstance().Init(skillName.text);
                     break;
                 case "1*加倍":
                     break;

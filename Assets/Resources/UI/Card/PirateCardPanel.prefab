@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u63A2\u7D22\u5C9B\u5C7F"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f0c1fde31c383f042b1d789d57a9a14a, type: 2}
-  m_sharedMaterial: {fileID: -6519062933068378063, guid: f0c1fde31c383f042b1d789d57a9a14a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4aaa788fd24ef2f40850bbc81398d072, type: 2}
+  m_sharedMaterial: {fileID: -8125995778954786268, guid: 4aaa788fd24ef2f40850bbc81398d072, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -417,8 +417,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f0c1fde31c383f042b1d789d57a9a14a, type: 2}
-  m_sharedMaterial: {fileID: -6519062933068378063, guid: f0c1fde31c383f042b1d789d57a9a14a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4aaa788fd24ef2f40850bbc81398d072, type: 2}
+  m_sharedMaterial: {fileID: -8125995778954786268, guid: 4aaa788fd24ef2f40850bbc81398d072, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -566,8 +566,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 88
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f0c1fde31c383f042b1d789d57a9a14a, type: 2}
-  m_sharedMaterial: {fileID: -6519062933068378063, guid: f0c1fde31c383f042b1d789d57a9a14a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4aaa788fd24ef2f40850bbc81398d072, type: 2}
+  m_sharedMaterial: {fileID: -8125995778954786268, guid: 4aaa788fd24ef2f40850bbc81398d072, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -700,8 +700,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u6D77\u76D7"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f0c1fde31c383f042b1d789d57a9a14a, type: 2}
-  m_sharedMaterial: {fileID: -6519062933068378063, guid: f0c1fde31c383f042b1d789d57a9a14a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4aaa788fd24ef2f40850bbc81398d072, type: 2}
+  m_sharedMaterial: {fileID: -8125995778954786268, guid: 4aaa788fd24ef2f40850bbc81398d072, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -930,6 +930,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 5, y: 5}
   m_UseGraphicAlpha: 1

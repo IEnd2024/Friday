@@ -10,11 +10,14 @@ public class SkillPanelCtrl : BasePanel
     private TextMeshProUGUI myName;
     private Button left_btn;
     private Button right_btn;
+    private Image cardPoint;
+
+    public bool isLimitList = false;
+    public UnityAction listCtrl;
     private UnityAction leftClickAction;
     private UnityAction rightClickAction;
-    private Image cardPoint;
-    private List<BatCardView> batFreeCards=new List<BatCardView>();
-    private List<BatCardView> batCards=new List<BatCardView>();
+    public List<BatCardView> batFreeCards=new List<BatCardView>();
+    public List<BatCardView> batCards=new List<BatCardView>();
     private void OnEnable()
     {
         myName = GetControl<TextMeshProUGUI>("name");
@@ -22,22 +25,25 @@ public class SkillPanelCtrl : BasePanel
         right_btn = GetControl<Button>("Right_btn");
         cardPoint = GetControl<Image>("SkillCardPile");
 
-        EventCenter.GetInstance().addEventListener("EndRoundOfHp", () =>
+        EventCenter.GetInstance().addEventListener("ClearSkillPanel", () =>
         {
-            if (this != null)
-                GameObject.Destroy(this.gameObject);
+            GameObject.Destroy(this.gameObject);
         });
 
         EventCenter.GetInstance().addEventListener<BatCardView>("DragTarget", (obj) =>
         {
-            if(MathBase.GetInstance().IsOverLap(this.transform,obj.transform)&& this != null)
+            listCtrl();
+            if (MathBase.GetInstance().IsOverLap(this.transform, obj.transform) && !isLimitList
+            && obj.bk.GetComponent<Outline>().effectColor != Color.red)
             {
                 if (FreeBatPanelCtrl.Instance.IsFreeBat(obj))
                     batFreeCards.Add(obj);
-                else if(BatPanelCtrl.Instance.IsBat(obj))
+                else if (BatPanelCtrl.Instance.IsBat(obj))
                     batCards.Add(obj);
                 obj.transform.SetParent(cardPoint.transform);
             }
+            
+            
         });
 
     }
@@ -64,34 +70,25 @@ public class SkillPanelCtrl : BasePanel
     private void OnDestroy()
     {
         SkillMgr.GetInstance().isSkill=false;
+        isLimitList = false;
         myName = null;
         left_btn= null;
         right_btn= null;
+        listCtrl=null;
         leftClickAction =null;
         rightClickAction=null;
         cardPoint = null;
-        if (batFreeCards.Count > 0)
+        if (batFreeCards.Count > 0 && 
+            (GameCtrl.nowState==Game_State.GetBatCard|| GameCtrl.nowState == Game_State.GetFreeBatCard))
             BaseCard.GetInstance().SetCard("BattleCard", FreeBatPanelCtrl.Instance.transform, batFreeCards);
-        if (batCards.Count > 0)
+        if (batCards.Count > 0 &&
+            (GameCtrl.nowState == Game_State.GetBatCard || GameCtrl.nowState == Game_State.GetFreeBatCard))
             BaseCard.GetInstance().SetCard("BattleCard", BatPanelCtrl.Instance.transform, batCards);
         batFreeCards.Clear();
         batCards.Clear();
-        EventCenter.GetInstance().RemoveEventListener("EndRoundOfHp", () =>
-        {
-            if (this != null)
-                GameObject.Destroy(this.gameObject);
-        });
-        EventCenter.GetInstance().RemoveEventListener<BatCardView>("DragTarget", (obj) =>
-        {
-            if (MathBase.GetInstance().IsOverLap(this.transform, obj.transform))
-            {
-                if (FreeBatPanelCtrl.Instance.IsFreeBat(obj))
-                    batFreeCards.Add(obj);
-                else if (BatPanelCtrl.Instance.IsBat(obj))
-                    batCards.Add(obj);
-                obj.transform.SetParent(cardPoint.transform);
-            }
-        });
+        EventCenter.GetInstance().EventTrigger("EndSkill");
+        EventCenter.GetInstance().ClearSingleEvent("ClearSkillPanel");
+        EventCenter.GetInstance().ClearSingleEvent<BatCardView>("DragTarget");
 
     }
 }

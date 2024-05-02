@@ -14,11 +14,8 @@ public class OldLibraryCtrl : BasePanel
 
         EventCenter.GetInstance().addEventListener<List<BatCardView>>("AddOldToBat", (cardList) =>
         {
-            if (cardList.Count > 0)
-            {
-                cardList.Add(oldCards[oldCards.Count - 1]);
-                oldCards.RemoveAt(oldCards.Count - 1);
-            }
+            cardList.Add(oldCards[oldCards.Count - 1]);
+            oldCards.RemoveAt(oldCards.Count - 1);
         });
     }
 }

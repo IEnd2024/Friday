@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 /// <summary>
 /// 为了使用泛型而解决装箱拆箱问题的接口和类
 /// </summary>
@@ -82,6 +83,7 @@ public class EventCenter : BaseManager<EventCenter>
             (eventDic[eventName] as EventInfo).actions -= action;
         }
     }
+
     /// <summary>
     /// 事件触发方法
     /// </summary>
@@ -116,5 +118,24 @@ public class EventCenter : BaseManager<EventCenter>
     public void Clear()
     {
         eventDic.Clear();
+    }
+    /// <summary>
+    /// 清空特定事件
+    /// </summary>
+    /// <param name="eventName"></param>
+    public void ClearSingleEvent(string eventName)
+    {
+        if (eventDic.ContainsKey(eventName))
+        {
+            (eventDic[eventName] as EventInfo).actions = null;
+        }
+    }
+    //清空有参特定事件
+    public void ClearSingleEvent<T>(string eventName)
+    {
+        if (eventDic.ContainsKey(eventName))
+        {
+            (eventDic[eventName] as EventInfo<T>).actions = null;
+        }
     }
 }

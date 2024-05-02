@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,13 +18,17 @@ public class PlayerHPCtrl : BasePanel
         //扣血事件
         EventCenter.GetInstance().addEventListener<int>("HP", (value) =>
         {
-            if (int.Parse(hp.text) > 0 && int.Parse(hp.text) <= 22)
+            if (int.Parse(hp.text) >= 0 && int.Parse(hp.text) <= 22)
             {
                 hp.text = (int.Parse(hp.text) + value).ToString();
+                if(int.Parse(hp.text)<0)
+                {
+                    print("游戏失败");
+                }
             }
             else
             {
-                //GameFailed
+                print("游戏失败");
             }
         });
         //回合结算事件

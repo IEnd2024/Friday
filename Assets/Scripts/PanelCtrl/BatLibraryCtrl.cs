@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -71,14 +72,13 @@ public class BatLibraryCtrl : BasePanel
         //洗牌事件
         EventCenter.GetInstance().addEventListener("BatShuffle", () =>
         {
-            if (batGetCards.Count == 0 && batDiscardCards.Count > 0)
+            if (batGetCards.Count == 0)
             {
                 //添加老化牌至弃牌堆
                 EventCenter.GetInstance().EventTrigger("AddOldToBat", batDiscardCards);
                 //洗牌并存入抽牌堆
                 batGetCards = BaseCard.GetInstance().SetCard("BattleCard", batGetPile.transform, batDiscardCards);
-                batDiscardCards.Clear();
-                
+                batDiscardCards.Clear(); 
             }
         });
         //冒险胜利转化冒险卡为战斗卡逻辑

@@ -31,8 +31,34 @@ public class SkillMgr :BaseManager<SkillMgr>
                     {
                         GameObject.Destroy(panel.gameObject);
                     });
+                panel.listCtrl = () => { panel.isLimitList = true; };
+                break;
+            case "1*摧毁":
+                panel.Init(skillName, "摧毁一张", "取消",
+                    () =>
+                    {
+                        
+                        GameObject.Destroy(panel.gameObject);
+                    },
+                    () =>
+                    {
+                        GameObject.Destroy(panel.gameObject);
+                    });
+                panel.listCtrl = () =>
+                {
+                    if (panel.batCards.Count > 0 )
+                    {
+                        BaseCard.GetInstance().TurnOverCard(panel.batCards[0], true, BatPanelCtrl.Instance.transform);
+                        panel.batCards.Clear();
+                    }else if(panel.batFreeCards.Count > 0)
+                    {
+                        BaseCard.GetInstance().TurnOverCard(panel.batFreeCards[0], true, FreeBatPanelCtrl.Instance.transform);
+                        panel.batFreeCards.Clear();
+                    }
+                };
                 break;
         }
         panel.transform.localPosition = Vector3.up * Screen.height * 1/4;
+        
     }
 }

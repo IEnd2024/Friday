@@ -32,7 +32,8 @@ public class SkillPanelCtrl : BasePanel
 
         EventCenter.GetInstance().addEventListener<BatCardView>("DragTarget", (obj) =>
         {
-            listCtrl();
+            if (listCtrl != null)
+                listCtrl();
             if (MathBase.GetInstance().IsOverLap(this.transform, obj.transform) && !isLimitList
             && obj.bk.GetComponent<Outline>().effectColor != Color.red)
             {

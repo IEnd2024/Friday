@@ -37,7 +37,20 @@ public class SkillMgr :BaseManager<SkillMgr>
                 panel.Init(skillName, "摧毁一张", "取消",
                     () =>
                     {
-                        
+                        if (panel.batCards.Count > 0 )
+                        {
+                            panel.batCards[0].ActiveUpdata(false);
+                            panel.batCards[0].combatValue.text = (-int.Parse(panel.batCards[0].combatValue.text)).ToString();
+                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard", panel.batCards[0]);
+                            panel.batCards[0].combatValue.text = (-int.Parse(panel.batCards[0].combatValue.text)).ToString();
+                        }
+                        else if(panel.batFreeCards.Count > 0)
+                        {
+                            panel.batFreeCards[0].ActiveUpdata(false);
+                            panel.batFreeCards[0].combatValue.text = (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
+                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetFreeBatCard", panel.batFreeCards[0]);
+                            panel.batFreeCards[0].combatValue.text = (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
+                        }
                         GameObject.Destroy(panel.gameObject);
                     },
                     () =>

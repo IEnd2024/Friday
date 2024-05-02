@@ -59,15 +59,16 @@ public class BatCardView :BasePanel
         });
         EventCenter.GetInstance().addEventListener<CardData>(myId + "BatInfoUpdata", UpdateInfo);
         ActiveUpdata(isEnable);
-        //技能效果
-
         //添加UI事件
         //鼠标进入退出放大缩小
         BaseCard.GetInstance().EnterAndExitCard(myself);
         //拖拽效果
         UIManager.AddCustomEventListener(myself, EventTriggerType.Drag, (obj) =>
         {
-            this.transform.position = Input.mousePosition;
+            if(isEnable)
+            {
+                this.transform.position = Input.mousePosition;
+            }
         });
         //技能释放逻辑 回合结束摧毁卡牌阶段
         int hpValue = 0;

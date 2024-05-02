@@ -32,6 +32,14 @@ public class FreeBatPanelCtrl : BasePanel
         });
         EventCenter.GetInstance().addEventListener("EndRoundOfHp", () =>
         {
+            if (batFreeCards.Count > 0)
+            {
+                foreach (BatCardView card in batFreeCards)
+                {
+                    if (card.isEnable == false)
+                        EventCenter.GetInstance().EventTrigger("DestroyCard", card);
+                }
+            }
             batFreeCards.Clear();
         });
     }

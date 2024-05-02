@@ -83,44 +83,12 @@ public class AdvCardModel : MonoBehaviour
     //销毁时移除事件
     private void OnDestroy()
     {
-        EventCenter.GetInstance().RemoveEventListener<UnityAction<CardData>>(myId + "advInfoInit", (action) =>
-        {
-            action(NewData);
-            temporaryData = NewData;
-        });
-        EventCenter.GetInstance().RemoveEventListener<bool>(myId + "advActiveUpdata", (o) =>
-        {
-            isEnable = o;
-            EventCenter.GetInstance().EventTrigger(myId + "advActiveUpdataOfPanel", isEnable);
-        });
-        EventCenter.GetInstance().RemoveEventListener<int>(myId + "advValue1", (value) =>
-        {
-            temporaryData.advValue1 = NewData.advValue1 + value;
-            if (temporaryData.advValue1 < 0)
-                temporaryData.advValue1 = 0;
-            EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", temporaryData);
-        });
-        EventCenter.GetInstance().RemoveEventListener<int>(myId + "advValue2", (value) =>
-        {
-            temporaryData.advValue2 = NewData.advValue2 + value;
-            if (temporaryData.advValue2 < 0)
-                temporaryData.advValue2 = 0;
-            EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", temporaryData);
-        });
-        EventCenter.GetInstance().RemoveEventListener<int>(myId + "advValue3", (value) =>
-        {
-            temporaryData.advValue3 = NewData.advValue3 + value;
-            if (temporaryData.advValue3 < 0)
-                temporaryData.advValue3 = 0;
-            EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", temporaryData);
-        });
-        EventCenter.GetInstance().RemoveEventListener<int>(myId + "freeCardValue", (value) =>
-        {
-            temporaryData.freeCardValue = NewData.freeCardValue + value;
-            if (temporaryData.freeCardValue < 0)
-                temporaryData.freeCardValue = 0;
-            EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", temporaryData);
-        });
+        EventCenter.GetInstance().ClearSingleEvent<UnityAction<CardData>>(myId + "advInfoInit");
+        EventCenter.GetInstance().ClearSingleEvent<bool>(myId + "advActiveUpdata");
+        EventCenter.GetInstance().ClearSingleEvent<int>(myId + "advValue1");
+        EventCenter.GetInstance().ClearSingleEvent<int>(myId + "advValue2");
+        EventCenter.GetInstance().ClearSingleEvent<int>(myId + "advValue3");
+        EventCenter.GetInstance().ClearSingleEvent<int>(myId + "freeCardValue");
     }
 
 }

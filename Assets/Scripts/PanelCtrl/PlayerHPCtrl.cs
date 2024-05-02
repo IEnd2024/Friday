@@ -34,7 +34,7 @@ public class PlayerHPCtrl : BasePanel
         //回合结算事件
         EventCenter.GetInstance().addEventListener("EndRoundOfHp", () =>
         {
-            EventCenter.GetInstance().EventTrigger<UnityAction<int>>("EndRoundOfDeHp", (value) =>
+            EventCenter.GetInstance().EventTrigger<UnityAction<int>>(GameCtrl.nowAdvCard.MyId + "EndRoundOfDeHp", (value) =>
             {
                 if (value > 0)
                 {

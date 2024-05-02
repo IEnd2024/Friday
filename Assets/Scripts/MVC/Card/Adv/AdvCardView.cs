@@ -96,16 +96,13 @@ public class AdvCardView : BasePanel
                     EventCenter.GetInstance().EventTrigger(myId + "advValue1", -int.Parse(obj.combatValue.text));
                 });
                 //结算冒险回合结束
-                EventCenter.GetInstance().addEventListener<UnityAction<int>>("EndRoundOfDeHp", (action) => {
+                EventCenter.GetInstance().addEventListener<UnityAction<int>>(myId + "EndRoundOfDeHp", (action) => {
                     if (isEnable)
                         action(int.Parse(advValue1.text));
                 });
                 break;
             case Game_State.State_Yellow:
-                EventCenter.GetInstance().RemoveEventListener<UnityAction<int>>("EndRoundOfDeHp", (action) => {
-                    if (isEnable)
-                        action(int.Parse(advValue1.text));
-                });
+                EventCenter.GetInstance().ClearSingleEvent<UnityAction<int>>(myId + "EndRoundOfDeHp");
                 EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
                 {
                     if (isEnable)
@@ -116,16 +113,13 @@ public class AdvCardView : BasePanel
                     if (isEnable)
                         EventCenter.GetInstance().EventTrigger(myId + "advValue2", -int.Parse(obj.combatValue.text));
                 });
-                EventCenter.GetInstance().addEventListener<UnityAction<int>>("EndRoundOfDeHp", (action) => {
+                EventCenter.GetInstance().addEventListener<UnityAction<int>>(myId + "EndRoundOfDeHp", (action) => {
                     if (isEnable)
                         action(int.Parse(advValue2.text));
                 });
                 break;
             case Game_State.State_Red:
-                EventCenter.GetInstance().RemoveEventListener<UnityAction<int>>("EndRoundOfDeHp", (action) => {
-                    if (isEnable)
-                        action(int.Parse(advValue2.text));
-                });
+                EventCenter.GetInstance().ClearSingleEvent<UnityAction<int>>(myId + "EndRoundOfDeHp");
                 EventCenter.GetInstance().addEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
                 {
                     if (isEnable)
@@ -136,7 +130,7 @@ public class AdvCardView : BasePanel
                     if (isEnable)
                         EventCenter.GetInstance().EventTrigger(myId + "advValue3", -int.Parse(obj.combatValue.text));
                 });
-                EventCenter.GetInstance().addEventListener<UnityAction<int>>("EndRoundOfDeHp", (action) => {
+                EventCenter.GetInstance().addEventListener<UnityAction<int>>(myId + "EndRoundOfDeHp", (action) => {
                     if (isEnable)
                         action(int.Parse(advValue3.text));
                 });
@@ -200,119 +194,14 @@ public class AdvCardView : BasePanel
     //销毁时移除事件
     private void OnDestroy()
     {
-        EventCenter.GetInstance().RemoveEventListener<bool>(myId + "advActiveUpdataOfPanel", (o) =>
-        {
-            isEnable = o;
-            switchObj.SetActive(o);
-        });
-        EventCenter.GetInstance().RemoveEventListener<CardData>(myId + "advInfoUpdata", UpdateInfo);
+        EventCenter.GetInstance().ClearSingleEvent<bool>(myId + "advActiveUpdataOfPanel");
+        EventCenter.GetInstance().ClearSingleEvent<CardData>(myId + "advInfoUpdata");
+        EventCenter.GetInstance().ClearSingleEvent(myId + "FreeBatCardCount");
+        EventCenter.GetInstance().ClearSingleEvent(myId + "EndFailRound");
+        EventCenter.GetInstance().ClearSingleEvent(myId + "EndWinRound");
+        EventCenter.GetInstance().ClearSingleEvent<BatCardView>(myId + "GetFreeBatCard");
+        EventCenter.GetInstance().ClearSingleEvent<BatCardView>(myId + "GetBatCard");
+        EventCenter.GetInstance().ClearSingleEvent<UnityAction<int>>(myId + "EndRoundOfDeHp");
         EventCenter.GetInstance().RemoveEventListener("TotalStageChange", TotalStageChange);
-        EventCenter.GetInstance().RemoveEventListener(myId + "FreeBatCardCount", () =>
-        {
-            if (int.Parse(freeCardValue.text) > 0)
-            {
-                EventCenter.GetInstance().EventTrigger(myId + "freeCardValue", -1);
-            }
-            else
-            {
-                GameCtrl.nowState = Game_State.GetBatCard;
-            }
-        });
-        EventCenter.GetInstance().RemoveEventListener(myId + "EndFailRound", () =>
-        {
-            EventCenter.GetInstance().EventTrigger<UnityAction<CardData>>(myId + "advInfoInit", UpdateInfo);
-            EventCenter.GetInstance().EventTrigger("SaveToDiscardOfAdv", this);
-            EventCenter.GetInstance().EventTrigger("AdvShuffle");
-        });
-        EventCenter.GetInstance().RemoveEventListener(myId + "EndWinRound", () =>
-        {
-            EventCenter.GetInstance().EventTrigger("ChangeAdvToBat", this);
-            EventCenter.GetInstance().EventTrigger("AdvShuffle");
-        });
-        switch (GameCtrl.TotalState)
-        {
-            case Game_State.State_Green:
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue1", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue1", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<UnityAction<int>>("EndRoundOfDeHp", (action) =>
-                {
-                    if (isEnable)
-                        action(int.Parse(advValue1.text));
-                });
-                break;
-            case Game_State.State_Yellow:
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue1", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue1", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue2", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue2", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<UnityAction<int>>("EndRoundOfDeHp", (action) =>
-                {
-                    if (isEnable)
-                        action(int.Parse(advValue2.text));
-                });
-                break;
-            case Game_State.State_Red:
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue1", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue1", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue2", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue2", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetFreeBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue3", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<BatCardView>(myId + "GetBatCard", (obj) =>
-                {
-                    if (isEnable)
-                        EventCenter.GetInstance().EventTrigger(myId + "advValue3", -int.Parse(obj.combatValue.text));
-                });
-                EventCenter.GetInstance().RemoveEventListener<UnityAction<int>>("EndRoundOfDeHp", (action) =>
-                {
-                    if (isEnable)
-                        action(int.Parse(advValue3.text));
-                });
-                break;
-        }
-
     }
 }

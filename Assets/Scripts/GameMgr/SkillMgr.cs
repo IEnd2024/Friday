@@ -31,44 +31,86 @@ public class SkillMgr :BaseManager<SkillMgr>
                     {
                         GameObject.Destroy(panel.gameObject);
                     });
-                panel.listCtrl = () => { panel.isLimitList = true; };
+                panel.listLimitCount = 0;
                 break;
             case "1*摧毁":
-                panel.Init(skillName, "摧毁一张", "取消",
+                panel.Init(skillName, "摧毁此牌", "取消",
                     () =>
                     {
                         if (panel.batCards.Count > 0 )
                         {
                             panel.batCards[0].ActiveUpdata(false);
-                            panel.batCards[0].combatValue.text = (-int.Parse(panel.batCards[0].combatValue.text)).ToString();
-                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard", panel.batCards[0]);
-                            panel.batCards[0].combatValue.text = (-int.Parse(panel.batCards[0].combatValue.text)).ToString();
+                            panel.batCards[0].combatValue.text = 
+                            (-int.Parse(panel.batCards[0].combatValue.text)).ToString();
+                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard", 
+                                panel.batCards[0]);
+                            panel.batCards[0].combatValue.text = 
+                            (-int.Parse(panel.batCards[0].combatValue.text)).ToString();
+                            GameObject.Destroy(panel.gameObject);
                         }
                         else if(panel.batFreeCards.Count > 0)
                         {
                             panel.batFreeCards[0].ActiveUpdata(false);
-                            panel.batFreeCards[0].combatValue.text = (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
-                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetFreeBatCard", panel.batFreeCards[0]);
-                            panel.batFreeCards[0].combatValue.text = (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
+                            panel.batFreeCards[0].combatValue.text = 
+                            (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
+                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetFreeBatCard", 
+                                panel.batFreeCards[0]);
+                            panel.batFreeCards[0].combatValue.text = 
+                            (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
+                            GameObject.Destroy(panel.gameObject);
                         }
-                        GameObject.Destroy(panel.gameObject);
+                        
                     },
                     () =>
                     {
                         GameObject.Destroy(panel.gameObject);
                     });
-                panel.listCtrl = () =>
-                {
-                    if (panel.batCards.Count > 0 )
+                panel.listLimitCount = 1;
+                break;
+            case "1*加倍":
+                panel.Init(skillName, "加倍此牌", "取消",
+                    () =>
                     {
-                        BaseCard.GetInstance().TurnOverCard(panel.batCards[0], true, BatPanelCtrl.Instance.transform);
-                        panel.batCards.Clear();
-                    }else if(panel.batFreeCards.Count > 0)
+                        if (panel.batCards.Count > 0 &&
+                        panel.batCards[0].combatValue.text ==
+                            panel.batCards[0].GetComponent<BatCardModel>().NewData.combatValue.ToString()
+                            && int.Parse(panel.batCards[0].combatValue.text) != 0)
+                        {
+                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard",
+                            panel.batCards[0]);
+                            panel.batCards[0].combatValue.text =
+                            (2 * int.Parse(panel.batCards[0].combatValue.text)).ToString();
+                            GameObject.Destroy(panel.gameObject);
+                        }
+                        else if (panel.batFreeCards.Count > 0 &&
+                        panel.batFreeCards[0].combatValue.text ==
+                            panel.batFreeCards[0].GetComponent<BatCardModel>().NewData.combatValue.ToString()
+                            && int.Parse(panel.batFreeCards[0].combatValue.text) != 0)
+                        {
+                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetFreeBatCard",
+                                panel.batFreeCards[0]);
+                            panel.batFreeCards[0].combatValue.text =
+                            (2 * int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
+                            GameObject.Destroy(panel.gameObject);
+                        }
+                    },
+                    () =>
                     {
-                        BaseCard.GetInstance().TurnOverCard(panel.batFreeCards[0], true, FreeBatPanelCtrl.Instance.transform);
-                        panel.batFreeCards.Clear();
-                    }
-                };
+                        GameObject.Destroy(panel.gameObject);
+                    });
+                panel.listLimitCount = 1;
+                break;
+            case "1*复制":
+                break;
+            case "阶段-1":
+                break;
+            case "看3张牌":
+                break;
+            case "1*交换":
+                break;
+            case "2*交换":
+                break;
+            case "1*牌库底":
                 break;
         }
         panel.transform.localPosition = Vector3.up * Screen.height * 1/4;

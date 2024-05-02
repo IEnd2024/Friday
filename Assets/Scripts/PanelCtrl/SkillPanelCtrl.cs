@@ -12,7 +12,7 @@ public class SkillPanelCtrl : BasePanel
     private Button right_btn;
     private Image cardPoint;
 
-    public bool isLimitList = false;
+    public int listLimitCount=0;
     public UnityAction listCtrl;
     private UnityAction leftClickAction;
     private UnityAction rightClickAction;
@@ -34,7 +34,8 @@ public class SkillPanelCtrl : BasePanel
         {
             if (listCtrl != null)
                 listCtrl();
-            if (MathBase.GetInstance().IsOverLap(this.transform, obj.transform) && !isLimitList
+            ListLimitCount();
+            if (MathBase.GetInstance().IsOverLap(this.transform, obj.transform) && listLimitCount!=0
             && obj.bk.GetComponent<Outline>().effectColor != Color.red)
             {
                 if (FreeBatPanelCtrl.Instance.IsFreeBat(obj))
@@ -47,6 +48,22 @@ public class SkillPanelCtrl : BasePanel
             
         });
 
+    }
+    private void ListLimitCount()
+    {
+        if (listLimitCount > 0)
+        {
+            if (batCards.Count > listLimitCount - 1)
+            {
+                BaseCard.GetInstance().TurnOverCard(batCards[0], true, BatPanelCtrl.Instance.transform);
+                batCards.Clear();
+            }
+            else if (batFreeCards.Count > listLimitCount - 1)
+            {
+                BaseCard.GetInstance().TurnOverCard(batFreeCards[0], true, FreeBatPanelCtrl.Instance.transform);
+                batFreeCards.Clear();
+            }
+        }
     }
     public void Init(string skillName, string leftText_btn, string rightText_btn, UnityAction leftAction, UnityAction rightAction)
     {
@@ -71,7 +88,7 @@ public class SkillPanelCtrl : BasePanel
     private void OnDestroy()
     {
         SkillMgr.GetInstance().isSkill=false;
-        isLimitList = false;
+        listLimitCount = 0;
         myName = null;
         left_btn= null;
         right_btn= null;

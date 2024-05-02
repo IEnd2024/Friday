@@ -53,22 +53,16 @@ public class AdvCardModel : MonoBehaviour
         EventCenter.GetInstance().addEventListener<int>( myId + "advValue1", (value) =>
         {
             temporaryData.advValue1 = NewData.advValue1 + value;
-            if (temporaryData.advValue1 < 0)
-                temporaryData.advValue1 = 0;
             EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", temporaryData);
         });
         EventCenter.GetInstance().addEventListener<int>(myId + "advValue2", (value) =>
         {
             temporaryData.advValue2 = NewData.advValue2 + value;
-            if (temporaryData.advValue2 < 0)
-                temporaryData.advValue2 = 0;
             EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", temporaryData);
         });
         EventCenter.GetInstance().addEventListener<int>(myId + "advValue3", (value) =>
         {   
             temporaryData.advValue3 = NewData.advValue3 + value;
-            if (temporaryData.advValue3 < 0)
-                temporaryData.advValue3 = 0;
             EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", temporaryData);
         });
         EventCenter.GetInstance().addEventListener<int>(myId + "freeCardValue", (value) =>

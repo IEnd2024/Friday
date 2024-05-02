@@ -153,6 +153,8 @@ public class BatCardView :BasePanel
                     SkillMgr.GetInstance().Init(skillName.text);
                     break;
                 case "1*¼Ó±¶":
+                    bk.GetComponent<Outline>().effectColor = Color.red;
+                    SkillMgr.GetInstance().Init(skillName.text);
                     break;
                 case "1*¸´ÖÆ":
                     break;

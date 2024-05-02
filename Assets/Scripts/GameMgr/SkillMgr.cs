@@ -7,11 +7,16 @@ using UnityEngine.Events;
 public class SkillMgr :BaseManager<SkillMgr>
 {
     private string skillName;
+    private BatCardView cardSkill;
     public bool isSkill=false;
     public void Init( string skill)
     {
         skillName = skill;
         isSkill = true;
+        EventCenter.GetInstance().addEventListener<BatCardView>("Cardskilling", (obj) =>
+        {
+            cardSkill = obj;
+        });
         UIManager.GetInstance().ShowPanel<SkillPanelCtrl>("Panel/SkillPanel", E_UI_Layer.Bot, SkillLogic);
     }
 
@@ -58,8 +63,7 @@ public class SkillMgr :BaseManager<SkillMgr>
                             panel.batFreeCards[0].combatValue.text = 
                             (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
                             GameObject.Destroy(panel.gameObject);
-                        }
-                        
+                        } 
                     },
                     () =>
                     {
@@ -101,6 +105,27 @@ public class SkillMgr :BaseManager<SkillMgr>
                 panel.listLimitCount = 1;
                 break;
             case "1*复制":
+                panel.Init(skillName, "复制此牌", "取消",
+                    () =>
+                    {
+                        if (panel.batCards.Count > 0)
+                        {
+                            cardSkill.skillName.text = panel.batCards[0].skillName.text;
+                            cardSkill.bk.color = Color.gray;
+                            GameObject.Destroy(panel.gameObject);
+                        }
+                        else if (panel.batFreeCards.Count > 0)
+                        {
+                            cardSkill.skillName.text = panel.batFreeCards[0].skillName.text;
+                            cardSkill.bk.color = Color.gray;
+                            GameObject.Destroy(panel.gameObject);
+                        }
+                    },
+                    () =>
+                    {
+                        GameObject.Destroy(panel.gameObject);
+                    });
+                panel.listLimitCount = 1;
                 break;
             case "阶段-1":
                 break;
@@ -114,6 +139,5 @@ public class SkillMgr :BaseManager<SkillMgr>
                 break;
         }
         panel.transform.localPosition = Vector3.up * Screen.height * 1/4;
-        
     }
 }

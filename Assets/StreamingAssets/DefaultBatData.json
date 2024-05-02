@@ -4,6 +4,10 @@
 {"defaultId":3,"advName":"","batName":"虚弱","skillName":"","hp":1,"combatValue":0,"freeCardValue":0,"advValue1":0,"advValue2":0,"advValue3":0},
 {"defaultId":4,"advName":"","batName":"text1","skillName":"1*加倍","combatValue":1,"freeCardValue":0,"hp":0,"powerValue1":0,"powerValue2":0,"powerValue3":0},
 {"defaultId":5,"advName":"","batName":"text2","skillName":"+2张牌","combatValue":2,"freeCardValue":0,"hp":0,"powerValue1":0,"powerValue2":0,"powerValue3":0},
-{"defaultId":6,"advName":"","batName":"text3","skillName":"1*加倍","combatValue":3,"freeCardValue":0,"hp":0,"powerValue1":0,"powerValue2":0,"powerValue3":0}
+{"defaultId":6,"advName":"","batName":"text3","skillName":"1*加倍","combatValue":3,"freeCardValue":0,"hp":0,"powerValue1":0,"powerValue2":0,"powerValue3":0},
+{"defaultId":4,"advName":"","batName":"text1","skillName":"1*摧毁","combatValue":1,"freeCardValue":0,"hp":0,"powerValue1":0,"powerValue2":0,"powerValue3":0},
+{"defaultId":5,"advName":"","batName":"text2","skillName":"阶段-1","combatValue":2,"freeCardValue":0,"hp":0,"powerValue1":0,"powerValue2":0,"powerValue3":0},
+{"defaultId":6,"advName":"","batName":"text3","skillName":"1*复制","combatValue":3,"freeCardValue":0,"hp":0,"powerValue1":0,"powerValue2":0,"powerValue3":0}
+
 
 ]

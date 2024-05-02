@@ -29,7 +29,7 @@ public class BatPanelCtrl : BasePanel
         {
             batCards.Add(obj);
         });
-        EventCenter.GetInstance().addEventListener("EndRoundOfHp", () =>
+        EventCenter.GetInstance().addEventListener("DestroyBlankCard", () =>
         {
             if (batCards.Count > 0)
             {

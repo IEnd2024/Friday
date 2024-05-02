@@ -30,7 +30,7 @@ public class FreeBatPanelCtrl : BasePanel
         {
             batFreeCards.Add(obj);
         });
-        EventCenter.GetInstance().addEventListener("EndRoundOfHp", () =>
+        EventCenter.GetInstance().addEventListener("DestroyBlankCard", () =>
         {
             if (batFreeCards.Count > 0)
             {

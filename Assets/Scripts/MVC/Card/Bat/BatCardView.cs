@@ -105,6 +105,7 @@ public class BatCardView :BasePanel
         {
             if (isEnable)
             {
+                EventCenter.GetInstance().EventTrigger<UnityAction<CardData>>(myId + "BatInfoInit", UpdateInfo);
                 EventCenter.GetInstance().EventTrigger("SaveToDiscardOfBat", this);
             }
             //重置技能
@@ -115,6 +116,7 @@ public class BatCardView :BasePanel
         {
             if (isEnable)
             {
+                EventCenter.GetInstance().EventTrigger<UnityAction<CardData>>(myId + "BatInfoInit", UpdateInfo);
                 EventCenter.GetInstance().EventTrigger("SaveToDiscardOfBat", this);
                 //重置技能
                 bk.color = Color.gray;
@@ -157,6 +159,9 @@ public class BatCardView :BasePanel
                     SkillMgr.GetInstance().Init(skillName.text);
                     break;
                 case "1*复制":
+                    bk.GetComponent<Outline>().effectColor = Color.red;
+                    SkillMgr.GetInstance().Init(skillName.text);
+                    EventCenter.GetInstance().EventTrigger("Cardskilling", this);
                     break;
                 case "阶段-1":
                     break;

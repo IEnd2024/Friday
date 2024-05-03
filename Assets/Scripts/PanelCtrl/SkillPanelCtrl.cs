@@ -4,13 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-
 public class SkillPanelCtrl : BasePanel
 {
     private TextMeshProUGUI myName;
     private Button left_btn;
     private Button right_btn;
-    private Image cardPoint;
+    public Image cardPoint;
 
     public int listLimitCount=0;
     public UnityAction listCtrl;
@@ -18,6 +17,7 @@ public class SkillPanelCtrl : BasePanel
     private UnityAction rightClickAction;
     public List<BatCardView> batFreeCards=new List<BatCardView>();
     public List<BatCardView> batCards=new List<BatCardView>();
+    public List<BatCardView> getCards=new List<BatCardView>();
     private void OnEnable()
     {
         myName = GetControl<TextMeshProUGUI>("name");
@@ -86,7 +86,7 @@ public class SkillPanelCtrl : BasePanel
     }
     private void OnDestroy()
     {
-        SkillMgr.GetInstance().isSkill=false;
+        SkillMgr.GetInstance().IsSkill=false;
         listLimitCount = 0;
         myName = null;
         left_btn= null;
@@ -101,8 +101,13 @@ public class SkillPanelCtrl : BasePanel
         if (batCards.Count > 0 &&
             (GameCtrl.nowState == Game_State.GetBatCard || GameCtrl.nowState == Game_State.GetFreeBatCard))
             BaseCard.GetInstance().SetCard("BattleCard", BatPanelCtrl.Instance.transform, batCards);
+        foreach (BatCardView card in getCards)
+        {
+            EventCenter.GetInstance().EventTrigger("SaveToGetOfBat", card);
+        }
         batFreeCards.Clear();
         batCards.Clear();
+        getCards.Clear();
         EventCenter.GetInstance().EventTrigger("EndSkill");
         EventCenter.GetInstance().ClearSingleEvent("ClearSkillPanel");
         EventCenter.GetInstance().ClearSingleEvent<BatCardView>("DragTarget");

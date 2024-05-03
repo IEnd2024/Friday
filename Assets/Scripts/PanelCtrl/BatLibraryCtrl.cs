@@ -36,7 +36,6 @@ public class BatLibraryCtrl : BasePanel
     }
     private void EventListener()
     {
-   
         //抽卡事件
         EventCenter.GetInstance().addEventListener<Game_State>("GetBatCard_btn", (layer) =>
         {
@@ -62,12 +61,24 @@ public class BatLibraryCtrl : BasePanel
             print(batDiscardCards.Count + "discard");
 
         });
+        //得到牌堆顶第一张牌
+        EventCenter.GetInstance().addEventListener<UnityAction<List<BatCardView>>>("GetFirstBat", (action) =>
+        {
+            action(batGetCards);
+        });
         //存入弃牌堆
         EventCenter.GetInstance().addEventListener<BatCardView>("SaveToDiscardOfBat", (obj) =>
         {
             batDiscardCards.Add(obj); 
             obj.ActiveUpdata(false);
             BaseCard.GetInstance().TurnOverCard(obj, false, batDiscardPile.transform);
+        });
+        //存入抽牌堆
+        EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetOfBat", (obj) =>
+        {
+            batGetCards.Add(obj);
+            obj.ActiveUpdata(false);
+            BaseCard.GetInstance().TurnOverCard(obj, false, batGetPile.transform);
         });
         //洗牌事件
         EventCenter.GetInstance().addEventListener("BatShuffle", () =>

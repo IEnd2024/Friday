@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BatPanelCtrl : BasePanel
 {
+    #region 单例
     // 静态实例变量  
     private static BatPanelCtrl _instance;
     // 私有构造函数，防止外部直接实例化  
@@ -21,7 +22,7 @@ public class BatPanelCtrl : BasePanel
     {
         _instance = this;
     }
-
+    #endregion
     public List<BatCardView> batCards = new List<BatCardView>();
     private void Start()
     {

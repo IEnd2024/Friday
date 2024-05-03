@@ -8,7 +8,13 @@ public class SkillMgr :BaseManager<SkillMgr>
 {
     private string skillName;
     private BatCardView cardSkill;
-    public bool isSkill=false;
+    private bool isSkill=false;
+    private bool islookThreeCard=false;
+    
+    public string SkillName { get => skillName;  }
+    public bool IsSkill { get => isSkill; set => isSkill = value; }
+    public bool IslookThreeCard { get => islookThreeCard; set => islookThreeCard = value; }
+
     public void Init( string skill)
     {
         skillName = skill;
@@ -39,7 +45,7 @@ public class SkillMgr :BaseManager<SkillMgr>
                 panel.listLimitCount = 0;
                 break;
             case "1*摧毁":
-                panel.Init(skillName, "摧毁此牌", "取消",
+                panel.Init("选择一张牌摧毁", "摧毁此牌", "取消",
                     () =>
                     {
                         if (panel.batCards.Count > 0 )
@@ -67,12 +73,13 @@ public class SkillMgr :BaseManager<SkillMgr>
                     },
                     () =>
                     {
+                        cardSkill.bk.color = Color.gray;
                         GameObject.Destroy(panel.gameObject);
                     });
                 panel.listLimitCount = 1;
                 break;
             case "1*加倍":
-                panel.Init(skillName, "加倍此牌", "取消",
+                panel.Init("选择一张牌，将其战斗力翻倍", "加倍此牌", "取消",
                     () =>
                     {
                         if (panel.batCards.Count > 0 &&
@@ -100,12 +107,13 @@ public class SkillMgr :BaseManager<SkillMgr>
                     },
                     () =>
                     {
+                        cardSkill.bk.color = Color.gray;
                         GameObject.Destroy(panel.gameObject);
                     });
                 panel.listLimitCount = 1;
                 break;
             case "1*复制":
-                panel.Init(skillName, "复制此牌", "取消",
+                panel.Init("选择一张牌，复制其技能", "复制此牌", "取消",
                     () =>
                     {
                         if (panel.batCards.Count > 0)
@@ -123,6 +131,7 @@ public class SkillMgr :BaseManager<SkillMgr>
                     },
                     () =>
                     {
+                        cardSkill.bk.color = Color.gray;
                         GameObject.Destroy(panel.gameObject);
                     });
                 panel.listLimitCount = 1;
@@ -130,6 +139,34 @@ public class SkillMgr :BaseManager<SkillMgr>
             case "阶段-1":
                 break;
             case "看3张牌":
+                islookThreeCard=true;
+                EventCenter.GetInstance().EventTrigger<UnityAction<List<BatCardView>>>("GetFirstBat", (objList) =>
+                {
+                    for(int i = 1; i <= 3; i++)
+                    {
+                        objList[objList.Count - i].ActiveUpdata(true);
+                        BaseCard.GetInstance().TurnOverCard(objList[objList.Count - i], 
+                            objList[objList.Count - i].isEnable, panel.cardPoint.transform);
+                    }
+                });
+                panel.Init("看抽牌堆顶的三张牌,以任意顺序放回抽牌牌库," +
+                    "同时可以选择摧毁一张", "放回牌库", "取消",
+                   () =>
+                   {
+                       panel.getCards=new List<BatCardView>
+                       ( panel.cardPoint.GetComponentsInChildren<BatCardView>());
+                       panel.getCards.Reverse();
+                       GameObject.Destroy(panel.gameObject);
+                   },
+                   () =>
+                   {
+                       cardSkill.bk.color = Color.gray;
+                       panel.getCards = new List<BatCardView>
+                       (panel.cardPoint.GetComponentsInChildren<BatCardView>());
+                       panel.getCards.Reverse();
+                       GameObject.Destroy(panel.gameObject);
+                   });
+                panel.listLimitCount = 0;
                 break;
             case "1*交换":
                 break;

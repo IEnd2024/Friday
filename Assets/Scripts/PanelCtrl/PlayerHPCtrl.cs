@@ -47,7 +47,7 @@ public class PlayerHPCtrl : BasePanel
                     EventCenter.GetInstance().EventTrigger("DestoryHP", value);
                     EventCenter.GetInstance().EventTrigger("ShowText", "本次冒险失败");
                 }
-                else if (value < 0)
+                else if (value <= 0)
                 {
                     GameCtrl.nowState = Game_State.Begin;
                     EventCenter.GetInstance().EventTrigger("ShowText", "本次冒险成功");

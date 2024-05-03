@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class FreeBatPanelCtrl : BasePanel
 {
+    #region 单例
     // 静态实例变量  
     private static FreeBatPanelCtrl _instance;
     // 私有构造函数，防止外部直接实例化  
@@ -22,7 +23,7 @@ public class FreeBatPanelCtrl : BasePanel
     {
         _instance = this;
     }
-
+    #endregion
     public List<BatCardView> batFreeCards = new List<BatCardView>();
     private void Start()
     {

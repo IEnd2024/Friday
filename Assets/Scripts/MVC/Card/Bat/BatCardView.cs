@@ -82,17 +82,28 @@ public class BatCardView :BasePanel
             {
                 //释放技能
                 UseSkill();
-                //摧毁卡牌 
-                if (hpValue >= int.Parse(hp.text) && GameCtrl.nowState == Game_State.DestroyBatCard)
-                {
-                    EventCenter.GetInstance().EventTrigger("DestroyCard", this);
-                    EventCenter.GetInstance().EventTrigger("DestoryHP", hpValue - int.Parse(hp.text));
-                }
             }
-            if (SkillMgr.GetInstance().isSkill)
-                EventCenter.GetInstance().EventTrigger("DragTarget", this);
             RestorePostion();
-
+            //摧毁卡牌 
+            if (hpValue >= int.Parse(hp.text) && GameCtrl.nowState == Game_State.DestroyBatCard
+            &&MathBase.GetInstance().IsOverLap
+                (bk.transform, DestroyLibraryCtrl.Instance.destroyPoint.transform))
+            {
+                EventCenter.GetInstance().EventTrigger("DestroyCard", this);
+                EventCenter.GetInstance().EventTrigger("DestoryHP", hpValue - int.Parse(hp.text));
+            }
+            if(MathBase.GetInstance().IsOverLap
+                (bk.transform, DestroyLibraryCtrl.Instance.destroyPoint.transform)
+                && SkillMgr.GetInstance().SkillName == "看3张牌" && SkillMgr.GetInstance().IslookThreeCard)
+            {
+                EventCenter.GetInstance().EventTrigger("DestroyCard", this);
+                SkillMgr.GetInstance().IslookThreeCard=false;
+            }
+            //技能面板获取正在使用技能的面板
+            if (SkillMgr.GetInstance().IsSkill)
+                EventCenter.GetInstance().EventTrigger("DragTarget", this);
+            
+ 
 
         });
         //结束技能
@@ -129,7 +140,7 @@ public class BatCardView :BasePanel
     private void UseSkill()
     {
         if (bk.color != Color.white && GameCtrl.nowState != Game_State.DestroyBatCard
-            &&!SkillMgr.GetInstance().isSkill)
+            &&!SkillMgr.GetInstance().IsSkill)
         {
             bk.color = Color.white;
             switch (skillName.text)
@@ -153,10 +164,12 @@ public class BatCardView :BasePanel
                 case "1*摧毁":
                     bk.GetComponent<Outline>().effectColor = Color.red;
                     SkillMgr.GetInstance().Init(skillName.text);
+                    EventCenter.GetInstance().EventTrigger("Cardskilling", this);
                     break;
                 case "1*加倍":
                     bk.GetComponent<Outline>().effectColor = Color.red;
                     SkillMgr.GetInstance().Init(skillName.text);
+                    EventCenter.GetInstance().EventTrigger("Cardskilling", this);
                     break;
                 case "1*复制":
                     bk.GetComponent<Outline>().effectColor = Color.red;
@@ -171,6 +184,9 @@ public class BatCardView :BasePanel
                     } 
                     break;
                 case "看3张牌":
+                    bk.GetComponent<Outline>().effectColor = Color.red;
+                    SkillMgr.GetInstance().Init(skillName.text);
+                    EventCenter.GetInstance().EventTrigger("Cardskilling", this);
                     break;
                 case "1*交换":
                     break;

@@ -127,16 +127,11 @@ public class AdvCardView : BasePanel
         //面板数据变化事件
         EventCenter.GetInstance().addEventListener<Game_State>("TotalStageChange", TotalStageChange);
         //抽免费战斗牌时变化免费抽卡数
-        EventCenter.GetInstance().addEventListener(myId + "FreeBatCardCount", () =>
+        EventCenter.GetInstance().addEventListener<int>(myId + "FreeBatCardCount", (value) =>
         {
-            if (int.Parse(freeCardValue.text) > 0)
-            {
-                EventCenter.GetInstance().EventTrigger(myId + "freeCardValue", -1);
-            }
-            else
-            {
+            EventCenter.GetInstance().EventTrigger(myId + "freeCardValue", value);
+            if (int.Parse(freeCardValue.text) <= 0)
                 GameCtrl.nowState = Game_State.GetBatCard;
-            }
         });
         //回合结束冒险失败
         EventCenter.GetInstance().addEventListener(myId + "EndFailRound", () =>
@@ -198,7 +193,7 @@ public class AdvCardView : BasePanel
     {
         EventCenter.GetInstance().ClearSingleEvent<bool>(myId + "advActiveUpdataOfPanel");
         EventCenter.GetInstance().ClearSingleEvent<CardData>(myId + "advInfoUpdata");
-        EventCenter.GetInstance().ClearSingleEvent(myId + "FreeBatCardCount");
+        EventCenter.GetInstance().ClearSingleEvent<int>(myId + "FreeBatCardCount");
         EventCenter.GetInstance().ClearSingleEvent(myId + "EndFailRound");
         EventCenter.GetInstance().ClearSingleEvent(myId + "EndWinRound");
         EventCenter.GetInstance().ClearSingleEvent<BatCardView>(myId + "GetFreeBatCard");

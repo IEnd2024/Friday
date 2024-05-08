@@ -31,6 +31,7 @@ public class DestroyLibraryCtrl : BasePanel
         destroyPoint = GetControl<Image>("DestroyPile");
         EventCenter.GetInstance().addEventListener<BatCardView>("DestroyCard", (obj) =>
         {
+            obj.bk.color = Color.gray;
             destroyList.Add(obj);
             obj.ActiveUpdata(false);
             BaseCard.GetInstance().TurnOverCard(obj, false, destroyPoint.transform);

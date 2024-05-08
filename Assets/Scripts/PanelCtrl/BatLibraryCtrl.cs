@@ -42,7 +42,7 @@ public class BatLibraryCtrl : BasePanel
             EventCenter.GetInstance().EventTrigger("BatShuffle");
             if (layer == Game_State.GetFreeBatCard && batGetCards.Count > 0)
             {
-                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId+"FreeBatCardCount");
+                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId+"FreeBatCardCount",-1);
                 if (layer == Game_State.GetFreeBatCard)
                 {
                     EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId+"GetFreeBatCard", batGetCards[batGetCards.Count - 1]);
@@ -77,6 +77,13 @@ public class BatLibraryCtrl : BasePanel
         EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetOfBat", (obj) =>
         {
             batGetCards.Add(obj);
+            obj.ActiveUpdata(false);
+            BaseCard.GetInstance().TurnOverCard(obj, false, batGetPile.transform);
+        });
+        //¥Ê»Î≥È≈∆∂—∂•
+        EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetTopOfBat", (obj) =>
+        {
+            batGetCards.Insert(0, obj);
             obj.ActiveUpdata(false);
             BaseCard.GetInstance().TurnOverCard(obj, false, batGetPile.transform);
         });

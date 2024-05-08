@@ -45,7 +45,7 @@ public class SkillMgr :BaseManager<SkillMgr>
                 panel.listLimitCount = 0;
                 break;
             case "1*摧毁":
-                panel.Init("选择一张牌摧毁", "摧毁此牌", "取消",
+                panel.Init("选择一张牌摧毁", "摧毁", "取消",
                     () =>
                     {
                         if (panel.batCards.Count > 0 )
@@ -79,7 +79,7 @@ public class SkillMgr :BaseManager<SkillMgr>
                 panel.listLimitCount = 1;
                 break;
             case "1*加倍":
-                panel.Init("选择一张牌，将其战斗力翻倍", "加倍此牌", "取消",
+                panel.Init("选择一张牌，将其战斗力翻倍", "加倍", "取消",
                     () =>
                     {
                         if (panel.batCards.Count > 0 &&
@@ -113,7 +113,7 @@ public class SkillMgr :BaseManager<SkillMgr>
                 panel.listLimitCount = 1;
                 break;
             case "1*复制":
-                panel.Init("选择一张牌，复制其技能", "复制此牌", "取消",
+                panel.Init("选择一张牌，复制其技能", "复制", "取消",
                     () =>
                     {
                         if (panel.batCards.Count > 0)
@@ -149,8 +149,8 @@ public class SkillMgr :BaseManager<SkillMgr>
                             objList[objList.Count - i].isEnable, panel.cardPoint.transform);
                     }
                 });
-                panel.Init("看抽牌堆顶的三张牌,以任意顺序放回抽牌牌库," +
-                    "同时可以选择摧毁一张", "放回牌库", "取消",
+                panel.Init("看抽牌堆顶的三张牌,以任意顺序放回抽牌牌堆," +
+                    "同时可以选择摧毁一张(最左边为牌堆顶)", "放回牌库", "取消",
                    () =>
                    {
                        panel.getCards=new List<BatCardView>
@@ -169,10 +169,99 @@ public class SkillMgr :BaseManager<SkillMgr>
                 panel.listLimitCount = 0;
                 break;
             case "1*交换":
+                panel.Init("选择一张牌，抽一张牌与其交换", "交换", "取消",
+                    () =>
+                    {
+                        if (panel.batCards.Count > 0)
+                        {
+                            EventCenter.GetInstance().EventTrigger("SaveToDiscardOfBat", panel.batCards[0]);
+                            EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetBatCard);
+                            EventCenter.GetInstance().EventTrigger("HP", 1);
+                            panel.batCards[0].bk.color = Color.gray;
+                            panel.batCards.Clear();
+                            GameObject.Destroy(panel.gameObject);
+                        }
+                        else if (panel.batFreeCards.Count > 0)
+                        {
+                            EventCenter.GetInstance().EventTrigger("SaveToDiscardOfBat", panel.batFreeCards[0]);
+                            EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetFreeBatCard);
+                            if (GameCtrl.nowState == Game_State.GetFreeBatCard)
+                                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "FreeBatCardCount", 1);
+                            panel.batFreeCards[0].bk.color = Color.gray;
+                            panel.batFreeCards.Clear();
+                            GameObject.Destroy(panel.gameObject);
+                        }
+                    },
+                    () =>
+                    {
+                        cardSkill.bk.color = Color.gray;
+                        GameObject.Destroy(panel.gameObject);
+                    });
+                panel.listLimitCount = 1;
                 break;
             case "2*交换":
+                int count=0;
+                panel.Init("选择一张牌，抽一张牌与其交换*2", "交换一次", "取消",
+                    () =>
+                    {
+                        if (panel.batCards.Count > 0)
+                        {
+                            EventCenter.GetInstance().EventTrigger("SaveToDiscardOfBat", panel.batCards[0]);
+                            EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetBatCard);
+                            EventCenter.GetInstance().EventTrigger("HP", 1);
+                            panel.batCards[0].bk.color = Color.gray;
+                            panel.batCards.Clear();
+                            count++;
+                        }
+                        else if (panel.batFreeCards.Count > 0)
+                        {
+                            EventCenter.GetInstance().EventTrigger("SaveToDiscardOfBat", panel.batFreeCards[0]);
+                            EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetFreeBatCard);
+                            if (GameCtrl.nowState == Game_State.GetFreeBatCard)
+                                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "FreeBatCardCount", 1);
+                            panel.batFreeCards[0].bk.color = Color.gray;
+                            panel.batFreeCards.Clear();
+                            count++;
+                        }
+                        if (count == 2)
+                            GameObject.Destroy(panel.gameObject);
+                    },
+                    () =>
+                    {
+                        if (count == 0)
+                            cardSkill.bk.color = Color.gray;
+                        GameObject.Destroy(panel.gameObject);
+                    });
+                panel.listLimitCount = 1;
                 break;
             case "1*牌库底":
+                panel.Init("选择一张牌，放回抽卡牌堆底", "放回牌堆", "取消",
+                    () =>
+                    {
+                        if (panel.batCards.Count > 0)
+                        {
+                            EventCenter.GetInstance().EventTrigger("SaveToGetTopOfBat", panel.batCards[0]);
+                            panel.batCards[0].bk.color = Color.gray;
+                            panel.batCards.Clear();
+                            GameObject.Destroy(panel.gameObject);
+                        }
+                        else if (panel.batFreeCards.Count > 0)
+                        {
+                            EventCenter.GetInstance().EventTrigger("SaveToGetTopOfBat", panel.batFreeCards[0]);
+                            EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetFreeBatCard);
+                            if (GameCtrl.nowState == Game_State.GetFreeBatCard)
+                                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "FreeBatCardCount", 1);
+                            panel.batFreeCards[0].bk.color = Color.gray;
+                            panel.batFreeCards.Clear();
+                            GameObject.Destroy(panel.gameObject);
+                        }
+                    },
+                    () =>
+                    {
+                        cardSkill.bk.color = Color.gray;
+                        GameObject.Destroy(panel.gameObject);
+                    });
+                panel.listLimitCount = 1;
                 break;
         }
         panel.transform.localPosition = Vector3.up * Screen.height * 1/4;

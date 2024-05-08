@@ -102,9 +102,6 @@ public class BatCardView :BasePanel
             //技能面板获取正在使用技能的面板
             if (SkillMgr.GetInstance().IsSkill)
                 EventCenter.GetInstance().EventTrigger("DragTarget", this);
-            
- 
-
         });
         //结束技能
         EventCenter.GetInstance().addEventListener("EndSkill", () =>
@@ -189,10 +186,19 @@ public class BatCardView :BasePanel
                     EventCenter.GetInstance().EventTrigger("Cardskilling", this);
                     break;
                 case "1*交换":
+                    bk.GetComponent<Outline>().effectColor = Color.red;
+                    SkillMgr.GetInstance().Init(skillName.text);
+                    EventCenter.GetInstance().EventTrigger("Cardskilling", this);
                     break;
                 case "2*交换":
+                    bk.GetComponent<Outline>().effectColor = Color.red;
+                    SkillMgr.GetInstance().Init(skillName.text);
+                    EventCenter.GetInstance().EventTrigger("Cardskilling", this);
                     break;
                 case "1*牌库底":
+                    bk.GetComponent<Outline>().effectColor = Color.red;
+                    SkillMgr.GetInstance().Init(skillName.text);
+                    EventCenter.GetInstance().EventTrigger("Cardskilling", this);
                     break;
                 default:
                     bk.color = Color.gray;

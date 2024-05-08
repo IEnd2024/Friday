@@ -68,7 +68,6 @@ public class GameCtrl : MonoBehaviour
         EventCenter.GetInstance().addEventListener<AdvCardView>("StartAdv", (obj) =>
         {
             nowAdvCard = obj;
-            print(nowAdvCard.MyId);
         });
     }
 }

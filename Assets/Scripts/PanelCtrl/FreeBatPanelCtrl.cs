@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FreeBatPanelCtrl : BasePanel
 {
@@ -30,6 +31,11 @@ public class FreeBatPanelCtrl : BasePanel
         EventCenter.GetInstance().addEventListener<BatCardView>("GetFreeBatCard", (obj) =>
         {
             batFreeCards.Add(obj);
+            if (obj.skillName.text == "ֹͣ" && GameCtrl.nowState == Game_State.GetFreeBatCard)
+            {
+                GameCtrl.nowState = Game_State.GetBatCard;
+                obj.bk.GetComponent<Outline>().effectColor = Color.red;
+            }
         });
         EventCenter.GetInstance().addEventListener("DestroyBlankCard", () =>
         {

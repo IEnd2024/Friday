@@ -28,6 +28,11 @@ public class BatCardView :BasePanel
     public void ActiveUpdata(bool o)
     {
         EventCenter.GetInstance().EventTrigger(myId + "BatActiveUpdata", o);
+        if (!o)
+        {
+            bk.GetComponent<Outline>().effectColor = Color.black;
+            bk.color= Color.gray;
+        }
     }
     //更新控件数据
     public void UpdateInfo(CardData date)
@@ -103,10 +108,17 @@ public class BatCardView :BasePanel
             if (SkillMgr.GetInstance().IsSkill)
                 EventCenter.GetInstance().EventTrigger("DragTarget", this);
         });
+        //老化技能
+        EventCenter.GetInstance().addEventListener("OldLogic", () =>
+        {
+            if (isEnable)
+                SkillMgr.GetInstance().OldSkillLogic(this);
+        });
         //结束技能
         EventCenter.GetInstance().addEventListener("EndSkill", () =>
         {
-            bk.GetComponent<Outline>().effectColor = Color.black;
+            if (bk.GetComponent<Outline>().effectColor == Color.red)
+                bk.GetComponent<Outline>().effectColor = Color.black;
         });
         //回合结束冒险失败
         EventCenter.GetInstance().addEventListener("EndFailRound", () =>
@@ -116,8 +128,6 @@ public class BatCardView :BasePanel
                 EventCenter.GetInstance().EventTrigger<UnityAction<CardData>>(myId + "BatInfoInit", UpdateInfo);
                 EventCenter.GetInstance().EventTrigger("SaveToDiscardOfBat", this);
             }
-            //重置技能
-            bk.color = Color.gray;
         });
         //回合结束冒险成功
         EventCenter.GetInstance().addEventListener("EndWinRound", () =>
@@ -126,8 +136,6 @@ public class BatCardView :BasePanel
             {
                 EventCenter.GetInstance().EventTrigger<UnityAction<CardData>>(myId + "BatInfoInit", UpdateInfo);
                 EventCenter.GetInstance().EventTrigger("SaveToDiscardOfBat", this);
-                //重置技能
-                bk.color = Color.gray;
             }
         });
     }

@@ -57,9 +57,6 @@ public class BatLibraryCtrl : BasePanel
                 EventCenter.GetInstance().EventTrigger("GetBatCard", batGetCards[batGetCards.Count - 1]);
                 batGetCards.RemoveAt(batGetCards.Count - 1);
             }
-            print(batGetCards.Count + "get");
-            print(batDiscardCards.Count + "discard");
-
         });
         //得到牌堆顶第一张牌
         EventCenter.GetInstance().addEventListener<UnityAction<List<BatCardView>>>("GetFirstBat", (action) =>

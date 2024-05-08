@@ -67,7 +67,6 @@ public class AdvCardModel : MonoBehaviour
         });
         EventCenter.GetInstance().addEventListener<int>(myId + "freeCardValue", (value) =>
         {
-            print(value+"free");
             temporaryData.freeCardValue += value;
             if (temporaryData.freeCardValue < 0)
                 temporaryData.freeCardValue = 0;

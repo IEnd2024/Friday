@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class SkillMgr :BaseManager<SkillMgr>
 {
@@ -265,5 +267,39 @@ public class SkillMgr :BaseManager<SkillMgr>
                 break;
         }
         panel.transform.localPosition = Vector3.up * Screen.height * 1/4;
+    }
+    public void OldSkillLogic(BatCardView card)
+    {
+        switch (card.skillName.text)
+        {
+            case "-1生命值":
+                EventCenter.GetInstance().EventTrigger("HP", -1);
+                card.bk.GetComponent<Outline>().effectColor = Color.red;
+                break;
+            case "-2生命值":
+                EventCenter.GetInstance().EventTrigger("HP", -2);
+                card.bk.GetComponent<Outline>().effectColor = Color.red;
+                break;
+            case "战斗值最高的牌=0":
+                card.bk.GetComponent<Outline>().effectColor = Color.red;
+                BatCardView MaxCard = card;
+                foreach (BatCardView bat in FreeBatPanelCtrl.Instance.batFreeCards)
+                {
+                    if (bat.isEnable &&
+                        int.Parse(bat.combatValue.text) > int.Parse(MaxCard.combatValue.text))
+                        MaxCard = bat;
+                }
+                foreach (BatCardView bat in BatPanelCtrl.Instance.batCards)
+                {
+                    if (bat.isEnable &&
+                        int.Parse(bat.combatValue.text) > int.Parse(MaxCard.combatValue.text))
+                        MaxCard = bat;
+                }
+                MaxCard.combatValue.text = (-int.Parse(MaxCard.combatValue.text)).ToString();
+                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard", MaxCard);
+                MaxCard.combatValue.text = "0";
+                MaxCard.bk.GetComponent<Outline>().effectColor = Color.red;
+                break;
+        }
     }
 }

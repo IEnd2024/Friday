@@ -1,4 +1,6 @@
 [
-{"defaultId":1,"advName":"","batName":"痴呆","skillName":"","hp":2,"combatValue":-2,"freeCardValue":0,"advValue1":0,"advValue2":0,"advValue3":0},
-{"defaultId":2,"advName":"","batName":"发呆","skillName":"","hp":2,"combatValue":-1,"freeCardValue":0,"advValue1":0,"advValue2":0,"advValue3":0}
+{"defaultId":1,"advName":"","batName":"痴呆1","skillName":"-1生命值","hp":2,"combatValue":-2,"freeCardValue":0,"advValue1":0,"advValue2":0,"advValue3":0},
+{"defaultId":2,"advName":"","batName":"痴呆2","skillName":"-2生命值","hp":2,"combatValue":-2,"freeCardValue":0,"advValue1":0,"advValue2":0,"advValue3":0},
+{"defaultId":3,"advName":"","batName":"痴呆3","skillName":"战斗值最高的牌=0","hp":2,"combatValue":-2,"freeCardValue":0,"advValue1":0,"advValue2":0,"advValue3":0},
+{"defaultId":4,"advName":"","batName":"发呆","skillName":"停止","hp":2,"combatValue":-1,"freeCardValue":0,"advValue1":0,"advValue2":0,"advValue3":0}
 ]

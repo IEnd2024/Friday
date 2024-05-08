@@ -59,6 +59,9 @@ public class SkillMgr :BaseManager<SkillMgr>
                                 panel.batCards[0]);
                             panel.batCards[0].combatValue.text = 
                             (-int.Parse(panel.batCards[0].combatValue.text)).ToString();
+                            if (panel.batCards[0].skillName.text == "停止")
+                                if (GameCtrl.nowAdvCard.freeCardValue.text != "0")
+                                    GameCtrl.nowState = Game_State.GetFreeBatCard;
                             GameObject.Destroy(panel.gameObject);
                         }
                         else if(panel.batFreeCards.Count > 0)
@@ -70,6 +73,9 @@ public class SkillMgr :BaseManager<SkillMgr>
                                 panel.batFreeCards[0]);
                             panel.batFreeCards[0].combatValue.text = 
                             (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
+                            if (panel.batFreeCards[0].skillName.text == "停止")
+                                if (GameCtrl.nowAdvCard.freeCardValue.text != "0")
+                                    GameCtrl.nowState = Game_State.GetFreeBatCard;
                             GameObject.Destroy(panel.gameObject);
                         } 
                     },
@@ -274,14 +280,14 @@ public class SkillMgr :BaseManager<SkillMgr>
         {
             case "-1生命值":
                 EventCenter.GetInstance().EventTrigger("HP", -1);
-                card.bk.GetComponent<Outline>().effectColor = Color.red;
+                card.bk.GetComponent<Outline>().effectColor = Color.yellow;
                 break;
             case "-2生命值":
                 EventCenter.GetInstance().EventTrigger("HP", -2);
-                card.bk.GetComponent<Outline>().effectColor = Color.red;
+                card.bk.GetComponent<Outline>().effectColor = Color.yellow;
                 break;
             case "战斗值最高的牌=0":
-                card.bk.GetComponent<Outline>().effectColor = Color.red;
+                card.bk.GetComponent<Outline>().effectColor = Color.yellow;
                 BatCardView MaxCard = card;
                 foreach (BatCardView bat in FreeBatPanelCtrl.Instance.batFreeCards)
                 {
@@ -298,7 +304,7 @@ public class SkillMgr :BaseManager<SkillMgr>
                 MaxCard.combatValue.text = (-int.Parse(MaxCard.combatValue.text)).ToString();
                 EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard", MaxCard);
                 MaxCard.combatValue.text = "0";
-                MaxCard.bk.GetComponent<Outline>().effectColor = Color.red;
+                MaxCard.bk.GetComponent<Outline>().effectColor = Color.yellow;
                 break;
         }
     }

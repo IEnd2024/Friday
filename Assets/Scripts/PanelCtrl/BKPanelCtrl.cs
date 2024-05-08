@@ -49,19 +49,18 @@ public class BKPanelCtrl : BasePanel
         freeBatPoint = GetControl<Image>("FreeBatPoint");
         batPoint= GetControl<Image>("BatPoint");
         endRound_btn = GetControl<Button>("EndRound_btn");
-        //left_btn = GetControl<Button>("Left_btn");
-        //right_btn = GetControl<Button>("Right_btn");
-        //left_text = "使用技能";
-        //right_text = "取消";
-        //left_btn.GetComponentInChildren<TextMeshProUGUI>().text = left_text;
-        //right_btn.GetComponentInChildren<TextMeshProUGUI>().text = right_text;
         endRound_btn.gameObject.SetActive(false);
-        //right_btn.gameObject.SetActive(false);
-        //left_btn.gameObject.SetActive(false);
         EventCenter.GetInstance().addEventListener<AdvCardView>("StartAdv", (obj) =>
         {
             //固定使用的冒险卡位置
             BaseCard.GetInstance().TurnOverCard(obj, obj.IsEnable, startAdvPoint.transform);
+            //显示回合结束按钮
+            endRound_btn.gameObject.SetActive(true);
+        });
+        EventCenter.GetInstance().addEventListener<PirateCardView>("SelectPirate", (obj) =>
+        {
+            //固定使用的海盗卡位置
+            BaseCard.GetInstance().TurnOverCard(obj,true, startAdvPoint.transform);
             //显示回合结束按钮
             endRound_btn.gameObject.SetActive(true);
         });
@@ -99,12 +98,6 @@ public class BKPanelCtrl : BasePanel
                 EventCenter.GetInstance().EventTrigger("EndRoundOfHp");
                 endRound_btn.gameObject.SetActive(false);          
                 break;
-            //case "Left_btn":
-            //    leftAction();
-            //    break;
-            //case "Right_btn":
-            //    rightAction();
-            //    break;
         }
     }
 

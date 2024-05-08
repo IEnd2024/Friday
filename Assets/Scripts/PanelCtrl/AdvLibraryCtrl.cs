@@ -24,7 +24,6 @@ public class AdvLibraryCtrl : BasePanel
         advGetPile = GetControl<Image>("AdvGetPile");
         advDiscardPile = GetControl<Image>("AdvDiscardPile");
         advGetCards = BaseCard.GetInstance().SetCard("AdventureCard", advGetPile.transform, advGetCards);
-       
         EventListener();
         
     }
@@ -87,9 +86,9 @@ public class AdvLibraryCtrl : BasePanel
                             EventCenter.GetInstance().EventTrigger("ShowText", "∫£µ¡¿¥œÆ");
                             break;
                         }
-                        //if (GameCtrl.TotalState == Game_State.State_Pirate)
-                        //    EventCenter.GetInstance().EventTrigger("StartPirate");
-                    }
+                    if (GameCtrl.TotalState == Game_State.State_Pirate)
+                        EventCenter.GetInstance().EventTrigger("StartPirate");
+                }
                 //œ¥≈∆≤¢¥Ê»Î≥È≈∆∂—
                 advGetCards = BaseCard.GetInstance().SetCard("BattleCard", advGetPile.transform, advDiscardCards);
                 advDiscardCards.Clear();

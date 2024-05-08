@@ -21,8 +21,6 @@ public class BatCardModel : MonoBehaviour
         //初始化数据
         this.myId = id;
         newData = new CardData(defaultData); 
-        //创建新数据json文件
-        Save();
         EventListener();
     }
     /// <summary>

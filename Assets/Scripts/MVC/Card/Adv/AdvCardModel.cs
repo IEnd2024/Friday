@@ -23,8 +23,6 @@ public class AdvCardModel : MonoBehaviour
         this.myId = id;;
         newData = new CardData(defaultData);
         temporaryData = new CardData(defaultData);
-        //创建新数据json文件
-        Save();
         //添加事件监听
         EventListener();
     }

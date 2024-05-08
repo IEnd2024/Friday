@@ -208,6 +208,20 @@ public class BaseCard : BaseManager<BaseCard>
                         callBack(obj as T);
                     });
                     break;
+                case "PirateCard":
+                    UIManager.GetInstance().ShowPanel<PirateCardView>("Card/PirateCardPanel", E_UI_Layer.Mid, (obj) =>
+                    {
+                        if (cardDic.ContainsKey(name))
+                            k = (cardDic[name] as CardInfo<PirateCardView>).cardList.Count;
+                        obj.GetComponent<PirateCardModel>().Init(cards[j], k);
+                        //在基类中存储卡牌
+                        AddCard(name, obj);
+                        //回调函数
+                        callBack(obj as T);
+                        if (k == 1)
+                            return;
+                    });
+                    break;
 
             }
             

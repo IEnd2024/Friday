@@ -34,7 +34,7 @@ public class FreeBatPanelCtrl : BasePanel
             if (obj.skillName.text == "ֹͣ" && GameCtrl.nowState == Game_State.GetFreeBatCard)
             {
                 GameCtrl.nowState = Game_State.GetBatCard;
-                obj.bk.GetComponent<Outline>().effectColor = Color.red;
+                obj.bk.GetComponent<Outline>().effectColor = Color.yellow;
             }
         });
         EventCenter.GetInstance().addEventListener("DestroyBlankCard", () =>

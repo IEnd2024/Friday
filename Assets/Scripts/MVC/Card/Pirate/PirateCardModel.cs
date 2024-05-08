@@ -42,6 +42,19 @@ public class PirateCardModel : MonoBehaviour
         {
             isEnable = o;
         });
+        //¼àÌýÕ½¶·ÊÂ¼þ
+        EventCenter.GetInstance().addEventListener<int>(myId + "PirateValue1", (value) =>
+        {
+            newData.advValue1 += value;
+            EventCenter.GetInstance().EventTrigger(myId + "PirateInfoUpdata", newData);
+        });
+        EventCenter.GetInstance().addEventListener<int>(myId + "freeCardValue", (value) =>
+        {
+            newData.freeCardValue += value;
+            if (newData.freeCardValue < 0)
+                newData.freeCardValue = 0;
+            EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", newData);
+        });
     }
 
 }

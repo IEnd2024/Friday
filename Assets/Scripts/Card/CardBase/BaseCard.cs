@@ -213,7 +213,7 @@ public class BaseCard : BaseManager<BaseCard>
                     {
                         if (cardDic.ContainsKey(name))
                             k = (cardDic[name] as CardInfo<PirateCardView>).cardList.Count;
-                        obj.GetComponent<PirateCardModel>().Init(cards[j], k);
+                        obj.GetComponent<PirateCardModel>().Init(cards[j], -k-1);
                         //在基类中存储卡牌
                         AddCard(name, obj);
                         //回调函数

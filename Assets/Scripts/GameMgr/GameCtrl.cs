@@ -49,6 +49,7 @@ public class GameCtrl : MonoBehaviour
     static public Game_State nowState=Game_State.Begin;
     static public Game_State TotalState = Game_State.State_Green;
     static public AdvCardView nowAdvCard;
+    static public PirateCardView nowPirateCard;
     // Start is called before the first frame update
     void Start()
     {
@@ -68,6 +69,10 @@ public class GameCtrl : MonoBehaviour
         EventCenter.GetInstance().addEventListener<AdvCardView>("StartAdv", (obj) =>
         {
             nowAdvCard = obj;
+        });
+        EventCenter.GetInstance().addEventListener<PirateCardView>("SelectPirate", (obj) =>
+        {
+            nowPirateCard = obj;
         });
     }
 }

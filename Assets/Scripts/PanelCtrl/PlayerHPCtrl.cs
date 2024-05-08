@@ -36,26 +36,34 @@ public class PlayerHPCtrl : BasePanel
         {
             EventCenter.GetInstance().EventTrigger("OldLogic");
             EventCenter.GetInstance().EventTrigger("DestroyBlankCard");
-            EventCenter.GetInstance().EventTrigger("TotalStageChange", GameCtrl.TotalState);
-            EventCenter.GetInstance().EventTrigger<UnityAction<int>>(GameCtrl.nowAdvCard.MyId + "EndRoundOfDeHp", (value) =>
+            if(GameCtrl.TotalState != Game_State.State_Pirate)
             {
-                if (value > 0)
+                EventCenter.GetInstance().EventTrigger("TotalStageChange", GameCtrl.TotalState);
+                EventCenter.GetInstance().EventTrigger<UnityAction<int>>(GameCtrl.nowAdvCard.MyId + "EndRoundOfDeHp", (value) =>
                 {
-                    GameCtrl.nowState = Game_State.DestroyBatCard;
-                    //回合结束扣血
-                    EventCenter.GetInstance().EventTrigger("HP", -value);
-                    //根据扣血数选择摧毁卡牌
-                    EventCenter.GetInstance().EventTrigger("DestoryHP", value);
-                    EventCenter.GetInstance().EventTrigger("ShowText", "本次冒险失败");
-                }
-                else if (value <= 0)
-                {
-                    GameCtrl.nowState = Game_State.Begin;
-                    EventCenter.GetInstance().EventTrigger("ShowText", "本次冒险成功");
-                    EventCenter.GetInstance().EventTrigger("EndWinRound");
-                    EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "EndWinRound");
-                }
-            });
+                    if (value > 0)
+                    {
+                        GameCtrl.nowState = Game_State.DestroyBatCard;
+                        //回合结束扣血
+                        EventCenter.GetInstance().EventTrigger("HP", -value);
+                        //根据扣血数选择摧毁卡牌
+                        EventCenter.GetInstance().EventTrigger("DestoryHP", value);
+                        EventCenter.GetInstance().EventTrigger("ShowText", "本次冒险失败");
+                    }
+                    else if (value <= 0)
+                    {
+                        GameCtrl.nowState = Game_State.Begin;
+                        EventCenter.GetInstance().EventTrigger("ShowText", "本次冒险成功");
+                        EventCenter.GetInstance().EventTrigger("EndWinRound");
+                        EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "EndWinRound");
+                    }
+                });
+            }
+            else
+            {
+
+            }
+
         });
     }
     

@@ -40,23 +40,47 @@ public class BatLibraryCtrl : BasePanel
         EventCenter.GetInstance().addEventListener<Game_State>("GetBatCard_btn", (layer) =>
         {
             EventCenter.GetInstance().EventTrigger("BatShuffle");
-            if (layer == Game_State.GetFreeBatCard && batGetCards.Count > 0)
+            if (batGetCards.Count > 0  )
             {
-                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId+"FreeBatCardCount",-1);
-                if (layer == Game_State.GetFreeBatCard)
+                if(GameCtrl.TotalState != Game_State.State_Pirate)
                 {
-                    EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId+"GetFreeBatCard", batGetCards[batGetCards.Count - 1]);
-                    EventCenter.GetInstance().EventTrigger("GetFreeBatCard", batGetCards[batGetCards.Count - 1]);
-                    batGetCards.RemoveAt(batGetCards.Count - 1);
+                    if (layer == Game_State.GetFreeBatCard)
+                    {
+                        EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "FreeBatCardCount", -1);
+                        if (layer == Game_State.GetFreeBatCard)
+                        {
+                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetFreeBatCard", batGetCards[batGetCards.Count - 1]);
+                            EventCenter.GetInstance().EventTrigger("GetFreeBatCard", batGetCards[batGetCards.Count - 1]);
+                            batGetCards.RemoveAt(batGetCards.Count - 1);
+                        }
+                    }
+                    else if (layer == Game_State.GetBatCard)
+                    {
+                        EventCenter.GetInstance().EventTrigger("HP", -1);
+                        EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard", batGetCards[batGetCards.Count - 1]);
+                        EventCenter.GetInstance().EventTrigger("GetBatCard", batGetCards[batGetCards.Count - 1]);
+                        batGetCards.RemoveAt(batGetCards.Count - 1);
+                    }
                 }
-            }
-            if (layer == Game_State.GetBatCard && batGetCards.Count > 0)
-            {
-                EventCenter.GetInstance().EventTrigger("HP", -1);
-                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId+"GetBatCard", batGetCards[batGetCards.Count - 1]);
-                EventCenter.GetInstance().EventTrigger("GetBatCard", batGetCards[batGetCards.Count - 1]);
-                batGetCards.RemoveAt(batGetCards.Count - 1);
-            }
+                else
+                {
+                    if (layer == Game_State.GetFreeBatCard)
+                    {
+                        EventCenter.GetInstance().EventTrigger(GameCtrl.nowPirateCard.MyId + "FreeBatCardCount", -1);
+                        if (layer == Game_State.GetFreeBatCard)
+                        {
+                            EventCenter.GetInstance().EventTrigger("GetFreeBatCard", batGetCards[batGetCards.Count - 1]);
+                            batGetCards.RemoveAt(batGetCards.Count - 1);
+                        }
+                    }
+                    else if (layer == Game_State.GetBatCard)
+                    {
+                        EventCenter.GetInstance().EventTrigger("HP", -1);
+                        EventCenter.GetInstance().EventTrigger("GetBatCard", batGetCards[batGetCards.Count - 1]);
+                        batGetCards.RemoveAt(batGetCards.Count - 1);
+                    }
+                } 
+            } 
         });
         //得到牌堆顶第一张牌
         EventCenter.GetInstance().addEventListener<UnityAction<List<BatCardView>>>("GetFirstBat", (action) =>

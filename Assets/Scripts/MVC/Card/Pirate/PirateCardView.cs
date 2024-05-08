@@ -63,6 +63,27 @@ public class PirateCardView : BasePanel
         {
             EventCenter.GetInstance().EventTrigger(myId + "PirateActiveUpdata", true);
         });
+        //抽免费战斗牌时变化免费抽卡数
+        EventCenter.GetInstance().addEventListener<int>(myId + "FreeBatCardCount", (value) =>
+        {
+            if (isEnable)
+            {
+                EventCenter.GetInstance().EventTrigger(myId + "freeCardValue", value);
+                if (int.Parse(freeCardValue.text) <= 0)
+                    GameCtrl.nowState = Game_State.GetBatCard;
+            }
+        });
+        //战斗卡减少冒险值
+        EventCenter.GetInstance().addEventListener<BatCardView>("GetFreeBatCard", (obj) =>
+        {
+            if (isEnable)
+                EventCenter.GetInstance().EventTrigger(myId + "PirateValue1", -int.Parse(obj.combatValue.text));
+        });
+        EventCenter.GetInstance().addEventListener<BatCardView>("GetBatCard", (obj) =>
+        {
+            if (isEnable)
+                EventCenter.GetInstance().EventTrigger(myId + "PirateValue1", -int.Parse(obj.combatValue.text));
+        });
         //添加UI事件
         BaseCard.GetInstance().EnterAndExitCard(myself);
         UIManager.AddCustomEventListener(myself, EventTriggerType.PointerClick, (obj) =>

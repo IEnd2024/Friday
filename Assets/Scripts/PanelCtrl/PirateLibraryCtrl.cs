@@ -8,7 +8,7 @@ public class PirateLibraryCtrl : MonoBehaviour
     private List<PirateCardView> pirateCards=new List<PirateCardView>();    
     void Start()
     {
-        BaseCard.GetInstance().SetCard("PirateCard", this.transform, pirateCards);
+        pirateCards=BaseCard.GetInstance().SetCard("PirateCard", this.transform, pirateCards);
         EventCenter.GetInstance().addEventListener<PirateCardView>("SelectPirate", (obj) =>
         {
             pirateCards.Remove(obj);

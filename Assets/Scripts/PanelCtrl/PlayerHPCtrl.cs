@@ -26,10 +26,6 @@ public class PlayerHPCtrl : BasePanel
                     print("游戏失败");
                 }
             }
-            else
-            {
-                print("游戏失败");
-            }
         });
         //回合结算事件
         EventCenter.GetInstance().addEventListener("EndRoundOfHp", () =>
@@ -39,7 +35,8 @@ public class PlayerHPCtrl : BasePanel
             if(GameCtrl.TotalState != Game_State.State_Pirate)
             {
                 EventCenter.GetInstance().EventTrigger("TotalStageChange", GameCtrl.TotalState);
-                EventCenter.GetInstance().EventTrigger<UnityAction<int>>(GameCtrl.nowAdvCard.MyId + "EndRoundOfDeHp", (value) =>
+                EventCenter.GetInstance().EventTrigger<UnityAction<int>>
+                (GameCtrl.nowAdvCard.MyId + "EndRoundOfDeHp", (value) =>
                 {
                     if (value > 0)
                     {
@@ -55,13 +52,33 @@ public class PlayerHPCtrl : BasePanel
                         GameCtrl.nowState = Game_State.Begin;
                         EventCenter.GetInstance().EventTrigger("ShowText", "本次冒险成功");
                         EventCenter.GetInstance().EventTrigger("EndWinRound");
-                        EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "EndWinRound");
+                        EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + 
+                            "EndWinRound");
                     }
                 });
             }
             else
             {
+                EventCenter.GetInstance().EventTrigger<UnityAction<int>>
+                (GameCtrl.nowPirateCard.MyId + "EndRoundOfDeHp", (value) =>
+                {
+                    if(value > 0)
+                    {
+                        EventCenter.GetInstance().EventTrigger("HP", -value);
+                        print("游戏失败");
+                        print(value);
+                    }
+                    else
+                    {
+                        GameCtrl.nowState = Game_State.Begin;
+                        EventCenter.GetInstance().EventTrigger("ShowText", "本次冒险成功");
+                        EventCenter.GetInstance().EventTrigger("StartPirate");
+                        EventCenter.GetInstance().EventTrigger("WinThePirate", 
+                            GameCtrl.nowPirateCard);
+                        EventCenter.GetInstance().EventTrigger("EndWinRound");
 
+                    }
+                });
             }
 
         });

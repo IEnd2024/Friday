@@ -15,7 +15,8 @@ public class PirateCardView : BasePanel
     public TextMeshProUGUI advValue1;
     public Image myself;
     public Image advBK;
-    
+    public Image bk;
+
 
     private bool isEnable=false;
     private int myId;
@@ -84,12 +85,18 @@ public class PirateCardView : BasePanel
             if (isEnable)
                 EventCenter.GetInstance().EventTrigger(myId + "PirateValue1", -int.Parse(obj.combatValue.text));
         });
+        //回合结束
+        EventCenter.GetInstance().addEventListener<UnityAction<int>>(myId + "EndRoundOfDeHp", (action) =>
+        {
+            if (isEnable)
+                action(int.Parse(advValue1.text));
+        });
         //添加UI事件
         BaseCard.GetInstance().EnterAndExitCard(myself);
         UIManager.AddCustomEventListener(myself, EventTriggerType.PointerClick, (obj) =>
         {
             if (GameCtrl.TotalState == Game_State.State_Pirate && isEnable
-            && GameCtrl.nowState==Game_State.Begin)
+            && GameCtrl.nowState==Game_State.Begin&&bk.color!=Color.green)
             {
                 EventCenter.GetInstance().EventTrigger("SelectPirate", this);
                 EventCenter.GetInstance().EventTrigger("ShowText", "决战海盗");

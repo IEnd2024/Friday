@@ -86,7 +86,6 @@ public class AdvCardView : BasePanel
         switch (_State)
         {
             case Game_State.State_Green:
-
                 //结算冒险回合结束
                 EventCenter.GetInstance().ClearSingleEvent<UnityAction<int>>(myId + "EndRoundOfDeHp");
                 EventCenter.GetInstance().addEventListener<UnityAction<int>>(myId + "EndRoundOfDeHp", (action) => {

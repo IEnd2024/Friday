@@ -42,6 +42,18 @@ public class BatPanelCtrl : BasePanel
             }
             batCards.Clear();
         });
+        EventCenter.GetInstance().addEventListener<BatCardView>("SaveToDiscardOfBat", (obj) =>
+        {
+            batCards.Remove(obj);
+        });
+        EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetOfBat", (obj) =>
+        {
+            batCards.Remove(obj);
+        });
+        EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetBotOfBat", (obj) =>
+        {
+            batCards.Remove(obj);
+        });
     }
     public bool IsBat(BatCardView card)
     {

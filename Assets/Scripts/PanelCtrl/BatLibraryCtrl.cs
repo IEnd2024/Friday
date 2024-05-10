@@ -101,12 +101,17 @@ public class BatLibraryCtrl : BasePanel
             obj.ActiveUpdata(false);
             BaseCard.GetInstance().TurnOverCard(obj, false, batGetPile.transform);
         });
-        //´æÈë³éÅÆ¶Ñ¶¥
-        EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetTopOfBat", (obj) =>
+        //´æÈë³éÅÆ¶Ñµ×
+        EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetBotOfBat", (obj) =>
         {
             batGetCards.Insert(0, obj);
             obj.ActiveUpdata(false);
             BaseCard.GetInstance().TurnOverCard(obj, false, batGetPile.transform);
+        });
+        //É¾³ı¿¨ÅÆÍ¬Ê±É¾³ıÁĞ±íÖĞµÄ¿¨ÅÆ
+        EventCenter.GetInstance().addEventListener<BatCardView>("DestroyCard", (obj) =>
+        {
+            batGetCards.Remove(obj);
         });
         //Ï´ÅÆÊÂ¼ş
         EventCenter.GetInstance().addEventListener("BatShuffle", () =>

@@ -36,8 +36,8 @@ public class SkillMgr :BaseManager<SkillMgr>
                 panel.Init(skillName, "再抽一张", "取消",
                     () =>
                     {
-                        EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetBatCard);
                         EventCenter.GetInstance().EventTrigger("HP", 1);
+                        EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetBatCard);
                         GameObject.Destroy(panel.gameObject);
                     },
                     () =>
@@ -55,13 +55,15 @@ public class SkillMgr :BaseManager<SkillMgr>
                             panel.batCards[0].ActiveUpdata(false);
                             panel.batCards[0].combatValue.text = 
                             (-int.Parse(panel.batCards[0].combatValue.text)).ToString();
-                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard", 
-                                panel.batCards[0]);
+                            if (GameCtrl.TotalState != Game_State.State_Pirate)
+                                EventCenter.GetInstance().EventTrigger
+                                (GameCtrl.nowAdvCard.MyId + "GetBatCard", panel.batCards[0]);
+                                EventCenter.GetInstance().EventTrigger
+                                ("GetBatCard", panel.batCards[0]);
                             panel.batCards[0].combatValue.text = 
                             (-int.Parse(panel.batCards[0].combatValue.text)).ToString();
                             if (panel.batCards[0].skillName.text == "停止")
-                                if (GameCtrl.nowAdvCard.freeCardValue.text != "0")
-                                    GameCtrl.nowState = Game_State.GetFreeBatCard;
+                                GameCtrl.nowState = Game_State.GetFreeBatCard;
                             GameObject.Destroy(panel.gameObject);
                         }
                         else if(panel.batFreeCards.Count > 0)
@@ -69,13 +71,15 @@ public class SkillMgr :BaseManager<SkillMgr>
                             panel.batFreeCards[0].ActiveUpdata(false);
                             panel.batFreeCards[0].combatValue.text = 
                             (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
-                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetFreeBatCard", 
-                                panel.batFreeCards[0]);
+                            if (GameCtrl.TotalState != Game_State.State_Pirate)
+                                EventCenter.GetInstance().EventTrigger
+                            (GameCtrl.nowAdvCard.MyId + "GetFreeBatCard", panel.batFreeCards[0]);
+                                EventCenter.GetInstance().EventTrigger
+                                ("GetFreeBatCard", panel.batCards[0]);
                             panel.batFreeCards[0].combatValue.text = 
                             (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
                             if (panel.batFreeCards[0].skillName.text == "停止")
-                                if (GameCtrl.nowAdvCard.freeCardValue.text != "0")
-                                    GameCtrl.nowState = Game_State.GetFreeBatCard;
+                                GameCtrl.nowState = Game_State.GetFreeBatCard;
                             GameObject.Destroy(panel.gameObject);
                         } 
                     },
@@ -95,8 +99,11 @@ public class SkillMgr :BaseManager<SkillMgr>
                             panel.batCards[0].GetComponent<BatCardModel>().NewData.combatValue.ToString()
                             && int.Parse(panel.batCards[0].combatValue.text) != 0)
                         {
-                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard",
-                            panel.batCards[0]);
+                            if (GameCtrl.TotalState != Game_State.State_Pirate)
+                                EventCenter.GetInstance().EventTrigger
+                            (GameCtrl.nowAdvCard.MyId + "GetBatCard", panel.batCards[0]);
+                            EventCenter.GetInstance().EventTrigger
+                            ("GetBatCard", panel.batCards[0]);
                             panel.batCards[0].combatValue.text =
                             (2 * int.Parse(panel.batCards[0].combatValue.text)).ToString();
                             GameObject.Destroy(panel.gameObject);
@@ -106,8 +113,11 @@ public class SkillMgr :BaseManager<SkillMgr>
                             panel.batFreeCards[0].GetComponent<BatCardModel>().NewData.combatValue.ToString()
                             && int.Parse(panel.batFreeCards[0].combatValue.text) != 0)
                         {
-                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetFreeBatCard",
-                                panel.batFreeCards[0]);
+                            if (GameCtrl.TotalState != Game_State.State_Pirate)
+                                EventCenter.GetInstance().EventTrigger
+                            (GameCtrl.nowAdvCard.MyId + "GetFreeBatCard",panel.batFreeCards[0]);
+                            EventCenter.GetInstance().EventTrigger
+                            ("GetFreeBatCard", panel.batFreeCards[0]);
                             panel.batFreeCards[0].combatValue.text =
                             (2 * int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
                             GameObject.Destroy(panel.gameObject);
@@ -143,8 +153,6 @@ public class SkillMgr :BaseManager<SkillMgr>
                         GameObject.Destroy(panel.gameObject);
                     });
                 panel.listLimitCount = 1;
-                break;
-            case "阶段-1":
                 break;
             case "看3张牌":
                 islookThreeCard=true;
@@ -182,19 +190,26 @@ public class SkillMgr :BaseManager<SkillMgr>
                     {
                         if (panel.batCards.Count > 0)
                         {
+                            EventCenter.GetInstance().EventTrigger("HP", 1);
                             EventCenter.GetInstance().EventTrigger("SaveToDiscardOfBat", panel.batCards[0]);
                             EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetBatCard);
-                            EventCenter.GetInstance().EventTrigger("HP", 1);
                             panel.batCards[0].bk.color = Color.gray;
                             panel.batCards.Clear();
                             GameObject.Destroy(panel.gameObject);
                         }
                         else if (panel.batFreeCards.Count > 0)
                         {
+                            if (GameCtrl.nowState == Game_State.GetFreeBatCard)
+                            {
+                                if (GameCtrl.TotalState != Game_State.State_Pirate)
+                                    EventCenter.GetInstance().EventTrigger
+                                (GameCtrl.nowAdvCard.MyId + "FreeBatCardCount", 1);
+                                else
+                                    EventCenter.GetInstance().EventTrigger
+                                   (GameCtrl.nowPirateCard.MyId + "FreeBatCardCount", 1);
+                            }
                             EventCenter.GetInstance().EventTrigger("SaveToDiscardOfBat", panel.batFreeCards[0]);
                             EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetFreeBatCard);
-                            if (GameCtrl.nowState == Game_State.GetFreeBatCard)
-                                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "FreeBatCardCount", 1);
                             panel.batFreeCards[0].bk.color = Color.gray;
                             panel.batFreeCards.Clear();
                             GameObject.Destroy(panel.gameObject);
@@ -223,10 +238,17 @@ public class SkillMgr :BaseManager<SkillMgr>
                         }
                         else if (panel.batFreeCards.Count > 0)
                         {
+                            if (GameCtrl.nowState == Game_State.GetFreeBatCard)
+                            {
+                                if (GameCtrl.TotalState != Game_State.State_Pirate)
+                                    EventCenter.GetInstance().EventTrigger
+                                (GameCtrl.nowAdvCard.MyId + "FreeBatCardCount", 1);
+                                else
+                                    EventCenter.GetInstance().EventTrigger
+                                    (GameCtrl.nowPirateCard.MyId + "FreeBatCardCount", 1);
+                            }
                             EventCenter.GetInstance().EventTrigger("SaveToDiscardOfBat", panel.batFreeCards[0]);
                             EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetFreeBatCard);
-                            if (GameCtrl.nowState == Game_State.GetFreeBatCard)
-                                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "FreeBatCardCount", 1);
                             panel.batFreeCards[0].bk.color = Color.gray;
                             panel.batFreeCards.Clear();
                             count++;
@@ -248,17 +270,23 @@ public class SkillMgr :BaseManager<SkillMgr>
                     {
                         if (panel.batCards.Count > 0)
                         {
-                            EventCenter.GetInstance().EventTrigger("SaveToGetTopOfBat", panel.batCards[0]);
+                            EventCenter.GetInstance().EventTrigger("SaveToGetBotOfBat", panel.batCards[0]);
                             panel.batCards[0].bk.color = Color.gray;
                             panel.batCards.Clear();
                             GameObject.Destroy(panel.gameObject);
                         }
                         else if (panel.batFreeCards.Count > 0)
                         {
-                            EventCenter.GetInstance().EventTrigger("SaveToGetTopOfBat", panel.batFreeCards[0]);
-                            EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetFreeBatCard);
                             if (GameCtrl.nowState == Game_State.GetFreeBatCard)
-                                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "FreeBatCardCount", 1);
+                            {
+                                if (GameCtrl.TotalState != Game_State.State_Pirate)
+                                    EventCenter.GetInstance().EventTrigger
+                                    (GameCtrl.nowAdvCard.MyId + "FreeBatCardCount", 1);
+                                EventCenter.GetInstance().EventTrigger
+                                (GameCtrl.nowPirateCard.MyId + "FreeBatCardCount", 1);
+                            }
+                            EventCenter.GetInstance().EventTrigger("SaveToGetBotOfBat", panel.batFreeCards[0]);
+                            EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetFreeBatCard);
                             panel.batFreeCards[0].bk.color = Color.gray;
                             panel.batFreeCards.Clear();
                             GameObject.Destroy(panel.gameObject);
@@ -302,7 +330,10 @@ public class SkillMgr :BaseManager<SkillMgr>
                         MaxCard = bat;
                 }
                 MaxCard.combatValue.text = (-int.Parse(MaxCard.combatValue.text)).ToString();
-                EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard", MaxCard);
+                if (GameCtrl.TotalState != Game_State.State_Pirate)
+                    EventCenter.GetInstance().EventTrigger
+                    (GameCtrl.nowAdvCard.MyId + "GetBatCard", MaxCard);
+                    EventCenter.GetInstance().EventTrigger("GetBatCard", MaxCard);
                 MaxCard.combatValue.text = "0";
                 MaxCard.bk.GetComponent<Outline>().effectColor = Color.yellow;
                 break;

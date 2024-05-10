@@ -157,13 +157,13 @@ public class BatCardView :BasePanel
                     EventCenter.GetInstance().EventTrigger("HP", 2);
                     break;
                 case "+1’≈≈∆":
-                    EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetBatCard);
                     EventCenter.GetInstance().EventTrigger("HP", 1);
+                    EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetBatCard);
                     break;
                 case "+2’≈≈∆":
                     bk.GetComponent<Outline>().effectColor = Color.red;
-                    EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetBatCard);
                     EventCenter.GetInstance().EventTrigger("HP", 1);
+                    EventCenter.GetInstance().EventTrigger("GetBatCard_btn", Game_State.GetBatCard);
                     SkillMgr.GetInstance().Init(skillName.text);
                     break;
                 case "1*¥›ªŸ":

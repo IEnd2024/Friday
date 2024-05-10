@@ -49,6 +49,18 @@ public class FreeBatPanelCtrl : BasePanel
             }
             batFreeCards.Clear();
         });
+        EventCenter.GetInstance().addEventListener<BatCardView>("SaveToDiscardOfBat", (obj) =>
+        {
+            batFreeCards.Remove(obj);
+        });
+        EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetOfBat", (obj) =>
+        {
+            batFreeCards.Remove(obj);
+        });
+        EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetBotOfBat", (obj) =>
+        {
+            batFreeCards.Remove(obj);
+        });
     }
     public bool IsFreeBat(BatCardView card)
     {

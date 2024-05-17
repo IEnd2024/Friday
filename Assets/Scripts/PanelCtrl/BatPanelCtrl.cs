@@ -28,7 +28,8 @@ public class BatPanelCtrl : BasePanel
     {
         EventCenter.GetInstance().addEventListener<BatCardView>("GetBatCard", (obj) =>
         {
-            batCards.Add(obj);
+            if (batCards.Contains(obj))
+                batCards.Add(obj);
         });
         EventCenter.GetInstance().addEventListener("DestroyBlankCard", () =>
         {

@@ -1,4 +1,4 @@
 [
 {"defaultId":1,"advName":"海盗","batName":"","skillName":"每张额外的战斗牌必须支付2生命值","combatValue":0,"freeCardValue":7,"hp":0,"advValue1":16,"advValue2":0,"advValue3":0},
-{"defaultId":2,"advName":"海盗","batName":"","skillName":"翻开的战斗牌只算一半(翻开的老化牌必须在内)","combatValue":0,"freeCardValue":9,"hp":0,"advValue1":22,"advValue2":0,"advValue3":0}
+{"defaultId":2,"advName":"海盗","batName":"","skillName":"每张翻开的战斗牌都+1战斗值","combatValue":0,"freeCardValue":9,"hp":0,"advValue1":22,"advValue2":0,"advValue3":0}
 ]

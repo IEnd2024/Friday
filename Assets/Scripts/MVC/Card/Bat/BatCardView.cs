@@ -31,7 +31,7 @@ public class BatCardView :BasePanel
         if (!o)
         {
             bk.GetComponent<Outline>().effectColor = Color.black;
-            bk.color= Color.gray;
+            bk.color = Color.gray;
         }
     }
     //更新控件数据

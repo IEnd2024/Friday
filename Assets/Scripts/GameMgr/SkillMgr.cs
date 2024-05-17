@@ -52,7 +52,6 @@ public class SkillMgr :BaseManager<SkillMgr>
                     {
                         if (panel.batCards.Count > 0 )
                         {
-                            panel.batCards[0].ActiveUpdata(false);
                             panel.batCards[0].combatValue.text = 
                             (-int.Parse(panel.batCards[0].combatValue.text)).ToString();
                             if (GameCtrl.TotalState != Game_State.State_Pirate)
@@ -68,18 +67,18 @@ public class SkillMgr :BaseManager<SkillMgr>
                         }
                         else if(panel.batFreeCards.Count > 0)
                         {
-                            panel.batFreeCards[0].ActiveUpdata(false);
                             panel.batFreeCards[0].combatValue.text = 
                             (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
                             if (GameCtrl.TotalState != Game_State.State_Pirate)
                                 EventCenter.GetInstance().EventTrigger
                             (GameCtrl.nowAdvCard.MyId + "GetFreeBatCard", panel.batFreeCards[0]);
                                 EventCenter.GetInstance().EventTrigger
-                                ("GetFreeBatCard", panel.batCards[0]);
+                                ("GetFreeBatCard", panel.batFreeCards[0]);
                             panel.batFreeCards[0].combatValue.text = 
                             (-int.Parse(panel.batFreeCards[0].combatValue.text)).ToString();
                             if (panel.batFreeCards[0].skillName.text == "ֹͣ")
                                 GameCtrl.nowState = Game_State.GetFreeBatCard;
+                            panel.batFreeCards[0].ActiveUpdata(false);
                             GameObject.Destroy(panel.gameObject);
                         } 
                     },

@@ -30,7 +30,8 @@ public class FreeBatPanelCtrl : BasePanel
     {
         EventCenter.GetInstance().addEventListener<BatCardView>("GetFreeBatCard", (obj) =>
         {
-            batFreeCards.Add(obj);
+            if (batFreeCards.Contains(obj))
+                batFreeCards.Add(obj);
             if (obj.skillName.text == "ֹͣ" && GameCtrl.nowState == Game_State.GetFreeBatCard)
             {
                 GameCtrl.nowState = Game_State.GetBatCard;

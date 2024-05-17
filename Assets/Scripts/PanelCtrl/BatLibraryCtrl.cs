@@ -27,7 +27,9 @@ public class BatLibraryCtrl : BasePanel
         switch (btnName)
         {
             case "BatGetName_btn":
+                EventCenter.GetInstance().EventTrigger("PressGetBatBtn");
                 EventCenter.GetInstance().EventTrigger("GetBatCard_btn",GameCtrl.nowState);
+                
                 break;
             case "BatDiscardName_btn":
 
@@ -49,17 +51,17 @@ public class BatLibraryCtrl : BasePanel
                         EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "FreeBatCardCount", -1);
                         if (layer == Game_State.GetFreeBatCard)
                         {
-                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetFreeBatCard", batGetCards[batGetCards.Count - 1]);
-                            EventCenter.GetInstance().EventTrigger("GetFreeBatCard", batGetCards[batGetCards.Count - 1]);
-                            batGetCards.RemoveAt(batGetCards.Count - 1);
+                            EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetFreeBatCard", batGetCards.Last());
+                            EventCenter.GetInstance().EventTrigger("GetFreeBatCard", batGetCards.Last());
+                            batGetCards.Remove(batGetCards.Last());
                         }
                     }
                     else if (layer == Game_State.GetBatCard)
                     {
                         EventCenter.GetInstance().EventTrigger("HP", -1);
-                        EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard", batGetCards[batGetCards.Count - 1]);
-                        EventCenter.GetInstance().EventTrigger("GetBatCard", batGetCards[batGetCards.Count - 1]);
-                        batGetCards.RemoveAt(batGetCards.Count - 1);
+                        EventCenter.GetInstance().EventTrigger(GameCtrl.nowAdvCard.MyId + "GetBatCard", batGetCards.Last());
+                        EventCenter.GetInstance().EventTrigger("GetBatCard", batGetCards.Last());
+                        batGetCards.Remove(batGetCards.Last());
                     }
                 }
                 else
@@ -69,15 +71,15 @@ public class BatLibraryCtrl : BasePanel
                         EventCenter.GetInstance().EventTrigger(GameCtrl.nowPirateCard.MyId + "FreeBatCardCount", -1);
                         if (layer == Game_State.GetFreeBatCard)
                         {
-                            EventCenter.GetInstance().EventTrigger("GetFreeBatCard", batGetCards[batGetCards.Count - 1]);
-                            batGetCards.RemoveAt(batGetCards.Count - 1);
+                            EventCenter.GetInstance().EventTrigger("GetFreeBatCard", batGetCards.Last());
+                            batGetCards.Remove(batGetCards.Last());
                         }
                     }
                     else if (layer == Game_State.GetBatCard)
                     {
                         EventCenter.GetInstance().EventTrigger("HP", -1);
-                        EventCenter.GetInstance().EventTrigger("GetBatCard", batGetCards[batGetCards.Count - 1]);
-                        batGetCards.RemoveAt(batGetCards.Count - 1);
+                        EventCenter.GetInstance().EventTrigger("GetBatCard", batGetCards.Last());
+                        batGetCards.Remove(batGetCards.Last());
                     }
                 } 
             } 

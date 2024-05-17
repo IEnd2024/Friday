@@ -53,7 +53,7 @@ public class PirateCardModel : MonoBehaviour
             newData.freeCardValue += value;
             if (newData.freeCardValue < 0)
                 newData.freeCardValue = 0;
-            EventCenter.GetInstance().EventTrigger(myId + "advInfoUpdata", newData);
+            EventCenter.GetInstance().EventTrigger(myId + "PirateInfoUpdata", newData);
         });
     }
 

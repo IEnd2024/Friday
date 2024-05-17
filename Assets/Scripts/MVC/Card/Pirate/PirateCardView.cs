@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -67,12 +68,9 @@ public class PirateCardView : BasePanel
         //抽免费战斗牌时变化免费抽卡数
         EventCenter.GetInstance().addEventListener<int>(myId + "FreeBatCardCount", (value) =>
         {
-            if (isEnable)
-            {
-                EventCenter.GetInstance().EventTrigger(myId + "freeCardValue", value);
-                if (int.Parse(freeCardValue.text) <= 0)
-                    GameCtrl.nowState = Game_State.GetBatCard;
-            }
+            EventCenter.GetInstance().EventTrigger(myId + "freeCardValue", value);
+            if (int.Parse(freeCardValue.text) <= 0)
+                GameCtrl.nowState = Game_State.GetBatCard;
         });
         //战斗卡减少冒险值
         EventCenter.GetInstance().addEventListener<BatCardView>("GetFreeBatCard", (obj) =>
@@ -103,5 +101,23 @@ public class PirateCardView : BasePanel
                 GameCtrl.nowState = Game_State.GetFreeBatCard;
             }
         });
+        //海盗技能相关
+        PirateSkills();
+    }
+
+    private void PirateSkills()
+    {
+        switch (skillName.text)
+        {
+            case "每张额外的战斗牌必须支付2生命值":
+                EventCenter.GetInstance().addEventListener("PressGetBatBtn", () =>
+                {
+                    if (isEnable && GameCtrl.nowState == Game_State.GetBatCard)
+                    {
+                        EventCenter.GetInstance().EventTrigger("HP", -1);
+                    }
+                });
+                break;
+        }
     }
 }

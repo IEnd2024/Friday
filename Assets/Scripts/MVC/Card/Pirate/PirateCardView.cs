@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PirateCardView : BasePanel
 {
@@ -68,8 +69,9 @@ public class PirateCardView : BasePanel
         //抽免费战斗牌时变化免费抽卡数
         EventCenter.GetInstance().addEventListener<int>(myId + "FreeBatCardCount", (value) =>
         {
-            EventCenter.GetInstance().EventTrigger(myId + "freeCardValue", value);
-            if (int.Parse(freeCardValue.text) <= 0)
+            if (int.Parse(freeCardValue.text) > 0)
+                EventCenter.GetInstance().EventTrigger(myId + "freeCardValue", value);
+            else
                 GameCtrl.nowState = Game_State.GetBatCard;
         });
         //战斗卡减少冒险值
@@ -102,7 +104,12 @@ public class PirateCardView : BasePanel
             }
         });
         //海盗技能相关
-        PirateSkills();
+        EventCenter.GetInstance().addEventListener<PirateCardView>("SelectPirate", (obj) =>
+        {
+            if (obj.myId == myId)
+                PirateSkills();
+        });
+        
     }
 
     private void PirateSkills()
@@ -117,6 +124,35 @@ public class PirateCardView : BasePanel
                         EventCenter.GetInstance().EventTrigger("HP", -1);
                     }
                 });
+                break;
+            case "每张翻开的战斗牌都+1战斗值":
+                EventCenter.GetInstance().addEventListener<int>("FreeBatPanelOfCount", (value) =>
+                {
+                    if (isEnable)
+                    {
+                        EventCenter.GetInstance().EventTrigger(myId + "PirateValue1", value);
+                    }
+                });
+                EventCenter.GetInstance().addEventListener<int>("BatPanelOfCount", (value) =>
+                {
+                    if (isEnable)
+                    {
+                        EventCenter.GetInstance().EventTrigger(myId + "PirateValue1", value);
+                    }
+                });
+                break;
+            case "和剩下的所有冒险牌战斗":
+                foreach(AdvCardView card in 
+                    BaseCard.GetInstance().GetCard<AdvCardView>("AdventureCard"))
+                {
+                    EventCenter.GetInstance().EventTrigger(myId + "PirateValue1", int.Parse(card.advValue3.text));
+                    EventCenter.GetInstance().EventTrigger(myId + "freeCardValue", int.Parse(card.freeCardValue.text));
+                }
+                break;
+            case "每张老化牌+2冒险值":
+                EventCenter.GetInstance().EventTrigger(myId + "PirateValue1", 
+                    ((BaseCard.GetInstance().GetCard<BatCardView>("OldCard").Count
+                    - OldLibraryCtrl.Instance.oldCards.Count) * 2));
                 break;
         }
     }

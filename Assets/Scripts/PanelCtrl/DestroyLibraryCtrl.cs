@@ -35,6 +35,8 @@ public class DestroyLibraryCtrl : BasePanel
             destroyList.Add(obj);
             obj.ActiveUpdata(false);
             BaseCard.GetInstance().TurnOverCard(obj, false, destroyPoint.transform);
+            BaseCard.GetInstance().RemoveCard("OldCard", obj);
+            BaseCard.GetInstance().RemoveCard("BattleCard", obj);
         });
     }
 

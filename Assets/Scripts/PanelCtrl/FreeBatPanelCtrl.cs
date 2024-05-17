@@ -30,13 +30,18 @@ public class FreeBatPanelCtrl : BasePanel
     {
         EventCenter.GetInstance().addEventListener<BatCardView>("GetFreeBatCard", (obj) =>
         {
-            if (batFreeCards.Contains(obj))
+            if (!batFreeCards.Contains(obj))
+            {
+                EventCenter.GetInstance().EventTrigger("FreeBatPanelOfCount", -1);
                 batFreeCards.Add(obj);
+            }
+                
             if (obj.skillName.text == "ֹͣ" && GameCtrl.nowState == Game_State.GetFreeBatCard)
             {
                 GameCtrl.nowState = Game_State.GetBatCard;
                 obj.bk.GetComponent<Outline>().effectColor = Color.yellow;
             }
+            
         });
         EventCenter.GetInstance().addEventListener("DestroyBlankCard", () =>
         {
@@ -52,15 +57,27 @@ public class FreeBatPanelCtrl : BasePanel
         });
         EventCenter.GetInstance().addEventListener<BatCardView>("SaveToDiscardOfBat", (obj) =>
         {
-            batFreeCards.Remove(obj);
+            if (!batFreeCards.Contains(obj))
+            {
+                batFreeCards.Remove(obj);
+                EventCenter.GetInstance().EventTrigger("FreeBatPanelOfCount", 1);
+            }
         });
         EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetOfBat", (obj) =>
         {
-            batFreeCards.Remove(obj);
+            if (!batFreeCards.Contains(obj))
+            {
+                batFreeCards.Remove(obj);
+                EventCenter.GetInstance().EventTrigger("FreeBatPanelOfCount", 1);
+            }
         });
         EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetBotOfBat", (obj) =>
         {
-            batFreeCards.Remove(obj);
+            if (!batFreeCards.Contains(obj))
+            {
+                batFreeCards.Remove(obj);
+                EventCenter.GetInstance().EventTrigger("FreeBatPanelOfCount", 1);
+            }
         });
     }
     public bool IsFreeBat(BatCardView card)

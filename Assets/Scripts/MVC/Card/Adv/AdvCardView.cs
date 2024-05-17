@@ -128,8 +128,9 @@ public class AdvCardView : BasePanel
         //抽免费战斗牌时变化免费抽卡数
         EventCenter.GetInstance().addEventListener<int>(myId + "FreeBatCardCount", (value) =>
         {
-            EventCenter.GetInstance().EventTrigger(myId + "freeCardValue", value);
-            if (int.Parse(freeCardValue.text) <= 0)
+            if (int.Parse(freeCardValue.text) > 0)
+                EventCenter.GetInstance().EventTrigger(myId + "freeCardValue", value);
+            else
                 GameCtrl.nowState = Game_State.GetBatCard;
         });
         //回合结束冒险失败

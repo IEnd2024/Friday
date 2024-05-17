@@ -28,8 +28,12 @@ public class BatPanelCtrl : BasePanel
     {
         EventCenter.GetInstance().addEventListener<BatCardView>("GetBatCard", (obj) =>
         {
-            if (batCards.Contains(obj))
+            if (!batCards.Contains(obj))
+            {
+                EventCenter.GetInstance().EventTrigger("BatPanelOfCount",-1);
                 batCards.Add(obj);
+            }
+                
         });
         EventCenter.GetInstance().addEventListener("DestroyBlankCard", () =>
         {
@@ -45,15 +49,27 @@ public class BatPanelCtrl : BasePanel
         });
         EventCenter.GetInstance().addEventListener<BatCardView>("SaveToDiscardOfBat", (obj) =>
         {
-            batCards.Remove(obj);
+            if (!batCards.Contains(obj))
+            {
+                EventCenter.GetInstance().EventTrigger("BatPanelOfCount", 1);
+                batCards.Remove(obj);
+            }
         });
         EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetOfBat", (obj) =>
         {
-            batCards.Remove(obj);
+            if (!batCards.Contains(obj))
+            {
+                EventCenter.GetInstance().EventTrigger("BatPanelOfCount", 1);
+                batCards.Remove(obj);
+            }
         });
         EventCenter.GetInstance().addEventListener<BatCardView>("SaveToGetBotOfBat", (obj) =>
         {
-            batCards.Remove(obj);
+            if (!batCards.Contains(obj))
+            {
+                EventCenter.GetInstance().EventTrigger("BatPanelOfCount", 1);
+                batCards.Remove(obj);
+            }
         });
     }
     public bool IsBat(BatCardView card)

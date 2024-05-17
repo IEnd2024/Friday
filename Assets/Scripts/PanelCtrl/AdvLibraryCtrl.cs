@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -53,7 +54,7 @@ public class AdvLibraryCtrl : BasePanel
         {
             advGetCards.Remove(obj);
             if(advGetCards.Count != 0)
-                EventCenter.GetInstance().EventTrigger("SaveToDiscardOfAdv", advGetCards[advGetCards.Count - 1]);
+                EventCenter.GetInstance().EventTrigger("SaveToDiscardOfAdv", advGetCards.Last());
         });
         //¥Ê»Î∆˙≈∆∂—
         EventCenter.GetInstance().addEventListener<AdvCardView>("SaveToDiscardOfAdv", (obj) =>

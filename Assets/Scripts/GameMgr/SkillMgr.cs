@@ -63,6 +63,7 @@ public class SkillMgr :BaseManager<SkillMgr>
                             (-int.Parse(panel.batCards[0].combatValue.text)).ToString();
                             if (panel.batCards[0].skillName.text == "ֹͣ")
                                 GameCtrl.nowState = Game_State.GetFreeBatCard;
+                            panel.batCards[0].ActiveUpdata(false);
                             GameObject.Destroy(panel.gameObject);
                         }
                         else if(panel.batFreeCards.Count > 0)
@@ -80,7 +81,7 @@ public class SkillMgr :BaseManager<SkillMgr>
                                 GameCtrl.nowState = Game_State.GetFreeBatCard;
                             panel.batFreeCards[0].ActiveUpdata(false);
                             GameObject.Destroy(panel.gameObject);
-                        } 
+                        }  
                     },
                     () =>
                     {
